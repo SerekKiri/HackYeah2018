@@ -30,7 +30,7 @@ class FitLocker extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainScreen(loggedIn),
+      home: homeScreen(),
     );
   }
 }
