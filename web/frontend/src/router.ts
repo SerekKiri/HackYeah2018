@@ -18,5 +18,20 @@ export default new Router({
       name: 'login',
       component: () => import(/* webpackChunkName: "about" */ './views/auth/Login.vue'),
     },
+    {
+      path: '/auth/register',
+      name: 'register',
+      component: () => import('./views/auth/Register.vue')
+    },
+    {
+      path: '/dashboard/dash',
+      name: 'dash',
+      component: () => import('./views/dashboard/dash.vue')
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('./views/settings.vue')
+    }
   ],
 });

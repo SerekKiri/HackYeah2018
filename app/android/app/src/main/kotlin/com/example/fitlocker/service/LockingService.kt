@@ -61,20 +61,20 @@ class LockingService : NonStopIntentService("LockingService") {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStart(intent!!, flags)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val notificationChannelId = "applocker"
+        val notificationChannelId = "fitlocker"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(notificationChannelId, "App Locker", NotificationManager.IMPORTANCE_DEFAULT)
+            val notificationChannel = NotificationChannel(notificationChannelId, "FitLocker", NotificationManager.IMPORTANCE_DEFAULT)
 
             // Configure the notification channel.
-            notificationChannel.description = "App Locker service"
+            notificationChannel.description = "FitLocker service"
             notificationChannel.enableLights(false)
             notificationChannel.enableVibration(false)
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
         val notification = NotificationCompat.Builder(this, notificationChannelId)
-                .setContentTitle("App Locker")
+                .setContentTitle("FitLocker")
                 .setContentText("Protecting your apps")
                 .setSmallIcon(R.drawable.ic_lock)
                 .setAutoCancel(false)
@@ -91,8 +91,22 @@ class LockingService : NonStopIntentService("LockingService") {
     private fun checkData() {
         while (threadIsTerminate) {
             val packageName = getLauncherTopApp(this@LockingService, activityManager)
-            if (prefs.getBoolean("flutter.$packageName", false) && prefs.getString("flutter.currentlyLocking", "") != packageName && !prefs.getBoolean("flutter.$packageName.unlocked", false)) {
-                startActivity(LockingActivity.createIntent(this, packageName))
+            if (prefs.getBoolean("flutter.$packageName", false)
+                    && prefs.getString("flutter.currentlyLocking", "")
+                    != packageName) {
+                if (!prefs.getBoolean("flutter.$packageName.unlocked", false)) {
+                    startActivity(LockingActivity.createIntent(this, packageName))
+                } else {
+                    if (prefs.getString("flutter.$packageName.lastLockTimestamp", "ddd") != "ddd" ){
+                        val lastLock = prefs.getString("flutter.$packageName.lastLockTimestamp", "ddd") as String;
+                        val period = prefs.getString("flutter.$packageName.lockingPeriod", "30000") as String;
+                        val milis = System.currentTimeMillis() / 1000
+                        if (milis - lastLock.toDouble() > period.toDouble()) {
+                            prefs.edit().putBoolean("flutter.$packageName.unlocked", false).commit()
+                        }
+
+                    }
+                }
             }
 
             try {

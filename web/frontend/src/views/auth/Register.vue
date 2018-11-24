@@ -5,10 +5,17 @@
                 <v-flex xs12 sm8 md4>
                     <v-card class="elevation-12">
                         <v-toolbar dark>
-                            <v-toolbar-title>Login</v-toolbar-title>
+                            <v-toolbar-title>Register</v-toolbar-title>
                         </v-toolbar>
                         <v-card-text>
                             <v-form>
+                                <v-text-field
+                                    prepend-icon="mdi-account"
+                                    name="userName"
+                                    label="User Name"
+                                    type="text"
+                                    v-model="userName"
+                                ></v-text-field>
                                 <v-text-field
                                     prepend-icon="mdi-account"
                                     name="Email"
@@ -24,11 +31,18 @@
                                     type="password"
                                     v-model="password"
                                 ></v-text-field>
+                                <v-text-field
+                                    prepend-icon="mdi-key"
+                                    id="password"
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                ></v-text-field>
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="black" v-on:click="post()" outline>Login</v-btn>
+                            <v-btn color="black" v-on:click="register()" outline to="/dashboard/dash">Register</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-flex>
@@ -41,33 +55,23 @@
 import { Component, Vue , Watch, Prop} from "vue-property-decorator";
 import axios from 'axios'
 
-export default class LoginPage extends Vue {
+export default class RegisterPage extends Vue {
     @Prop()
+    userName!: string;
     email!: string;
     password!: string;
-    userToken!: string;
-    // data: [];
-    // errors: [];
-    async post() {
-        await axios.post("/auth/login", {
+    async register() {
+        await axios.post("/api/auth/users",
+            {
                 "email": this.email,
                 "password": this.password,
-        })
-        .then(response => {
+                "displayName": this.userName
+            }
+        ).then(response => {
             console.log(response)
-        })
-        .catch(e => {
+        }).catch(e => {
             console.log(e)
-    })
+        })
     }
-    mounted() {
-        if(localStorage.email) {
-            this.token = localStorage.token;
-        }
-    }
-    token(newToken) {
-      localStorage.token = newToken;
-  }
-    
 }
 </script>

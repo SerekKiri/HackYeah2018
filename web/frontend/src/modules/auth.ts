@@ -28,7 +28,7 @@ const authModule: Module<AuthState, RootState> = {
   actions: {
     async login({ commit }, payload) {
         const resp = await fetch({
-            
+
         })
     }
   }
