@@ -39,7 +39,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import axios from "../../plugins/axios.js";
 
 @Component({
   components: {},
@@ -48,5 +47,15 @@ import axios from "../../plugins/axios.js";
 export default class LoginPage extends Vue {
     email: string;
     password: string;
+    post() {
+        axios.post("/auth/login"); {
+            body:  {
+                "email": "ddd@smrootmail.dd"
+                "password": "filiper123"
+            }
+        }
+        .then(reponse => {})
+        .catch(e => this.error.push(e))
+    }
 }
 </script>
