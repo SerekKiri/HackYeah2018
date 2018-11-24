@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'dart:ui';
+import 'dart:convert';
 import 'dart:async';
 import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/utils/utils.dart';
@@ -14,12 +15,19 @@ Future<List<LocalApp>> getAppList() async {
   var apps = List<String>.from(await platform.invokeMethod('queryPackages'));
   print(apps);
   List<LocalApp> unsortedApps = List<LocalApp>.from(apps.map((String app) {
+    var name = app.split(';')[0];
+    var packageName = app.split(';')[1];
+    var icon = app.split(';')[2];
     var blocked = false;
     try {
-      blocked = supaPrefs.getPrefs().getBool(app.split(';')[1]);
+      blocked = supaPrefs.getPrefs().getBool(packageName);
     } catch (e) {}
     if (!(blocked is bool)) blocked = false;
-    return LocalApp(app.split(';')[0], app.split(';')[1], blocked);
+
+    var bytes = Base64Decoder().convert(icon);
+    var iconImage = Image.memory(bytes);
+
+    return LocalApp(name, packageName, iconImage, blocked);
   }).toList());
 
   unsortedApps.sort();
@@ -29,9 +37,10 @@ Future<List<LocalApp>> getAppList() async {
 class LocalApp extends Comparable {
   String name;
   String packageName;
+  Image icon;
   bool isBlocked;
 
-  LocalApp(this.name, this.packageName, this.isBlocked);
+  LocalApp(this.name, this.packageName, this.icon, this.isBlocked);
 
   @override
   int compareTo(other) {

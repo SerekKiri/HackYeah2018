@@ -14,17 +14,16 @@ import android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS
 import android.app.AppOpsManager.OPSTR_GET_USAGE_STATS
 import android.content.Context
 import android.content.Context.APP_OPS_SERVICE
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.core.content.ContextCompat.getSystemService
 import android.os.Build.VERSION_CODES.KITKAT
 import android.os.Build.VERSION.SDK_INT
 import android.provider.Settings
 import android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS
-
-
-
-
-
-
+import android.provider.MediaStore.Images.Media.getBitmap
+import android.util.Base64
+import java.io.ByteArrayOutputStream
 
 
 class MainActivity: FlutterActivity() {
@@ -43,12 +42,23 @@ class MainActivity: FlutterActivity() {
                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
                 val data= pm.queryIntentActivities(intent,
                         PackageManager.PERMISSION_GRANTED).map {
-                    it.activityInfo.applicationInfo.loadLabel(pm).toString() + ';' + it.activityInfo.applicationInfo.packageName
+                    it.activityInfo.applicationInfo.loadLabel(pm).toString() + ';' +
+                    it.activityInfo.applicationInfo.packageName + ';' +
+                    getAppIcon(it.activityInfo.applicationInfo.packageName)
                 }
                 Log.v("FitLocker", data[0])
                 result.success(data)
             }
         }
+    }
+
+    private fun getAppIcon(packageName: String): String {
+        val icon = this.packageManager.getApplicationIcon(packageName)
+        val bitmap = (icon as BitmapDrawable).bitmap
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 60, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT).replace("\\s".toRegex(), "")
     }
 
     private fun showDialog() {
