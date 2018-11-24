@@ -22,6 +22,6 @@ import { Component, Vue } from 'vue-property-decorator';
   components: {
   },
 })
-export default class Home extends Vue {
+export default class Dashboard extends Vue {
 }
 </script>
