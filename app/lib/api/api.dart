@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:fitlocker/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fitlocker/models/app.dart';
 
 class Api {
 
@@ -34,14 +35,15 @@ class Api {
     }
   }
 
-  Future<List<Map>> fetchApps() async {
+  Future<List<App>> fetchApps() async {
     await supaPrefs.init();
     var token = await supaPrefs.getPrefs().getString('token');
     var url = "http://fitlocker.eu.ngrok.io/api/fit/tracked-apps";
     var response = await http.get(url, headers: {
       "Authorization" : "Bearer $token"
     });
-    print(response.body);
+    
+    return (List.from(json.decode(response.body)).map((item) { return App.fromJson(item); })).toList();
   }
 }
 
