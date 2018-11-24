@@ -14,6 +14,7 @@
                                     name="Email"
                                     label="Email"
                                     type="text"
+                                    v-model="email"
                                 ></v-text-field>
                                 <v-text-field
                                     prepend-icon="mdi-key"
@@ -21,6 +22,7 @@
                                     name="password"
                                     label="Password"
                                     type="password"
+                                    v-model="password"
                                 ></v-text-field>
                             </v-form>
                         </v-card-text>
@@ -37,8 +39,23 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+
 @Component({
-  components: {}
+  components: {},
 })
-export default class LoginPage extends Vue {}
+
+export default class LoginPage extends Vue {
+    email: string;
+    password: string;
+    post() {
+        axios.post("/auth/login"); {
+            body:  {
+                "email": "ddd@smrootmail.dd"
+                "password": "filiper123"
+            }
+        }
+        .then(reponse => {})
+        .catch(e => this.error.push(e))
+    }
+}
 </script>
