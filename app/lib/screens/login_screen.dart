@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fitlocker/api/api.dart';
+import 'package:fitlocker/models/user.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class loginScreen extends StatelessWidget {
   final _loginFormKey = GlobalKey<FormState>();
-  
+  User userToLogIn = new User();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,16 +36,26 @@ class loginScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           hintText: "email"
                         ),
+                        onSaved: (email) => userToLogIn.email = email,
                       ),),
                     TextFormField(
                       decoration: InputDecoration(
                         hintText: "password"
                       ),
+                      onSaved: (password) => userToLogIn.password = password,
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 10.0),
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _loginFormKey.currentState.save();
+                          var data = Map.from({
+                            "email" : userToLogIn.email,
+                            "password": userToLogIn.password
+                          });
+                          print(data);
+                          api.loginUser(data);
+                        },
                         child: Text("Log in", style: TextStyle(
                           color: Colors.white
                         )),
