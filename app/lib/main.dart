@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'dart:ui';
-import 'package:applocker/lockingscreen.dart';
+import 'package:fitlocker/lockingscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 void lockingscreen() => runApp(LockingScreen(packageName: window.defaultRouteName));
-const platform = const MethodChannel('feelfreelinux.github.io/applocker');
+const platform = const MethodChannel('feelfreelinux.github.io/fitlocker');
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FitLocker',
       theme: ThemeData(
         // This is the theme of your application.
         //
