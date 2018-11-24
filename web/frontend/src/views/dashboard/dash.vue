@@ -16,6 +16,36 @@
           <v-btn flat color="orange">Extension</v-btn>
         </v-card-actions>
       </v-card>
+      <v-spacer></v-spacer>
+      <v-card class="mt-3">
+        <v-card-title>
+           <h3 class="headline mb-0">Points</h3>
+        </v-card-title>
+        <v-card-text class="ml-4 title">
+
+        </v-card-text>
+        <v-card-actions>
+          <v-btn 
+            flat
+            disabled
+            color="orange"
+          >
+            Buy points
+          </v-btn>
+        </v-card-actions>
+      </v-card> 
+      <v-spacer></v-spacer>
+      <v-card class="mt-3">
+        <v-card-title>
+           <h3 class="headline mb-0">History</h3>
+        </v-card-title>
+        <v-card-text class="ml-4 title">
+
+        </v-card-text>
+        <v-card-actions>
+          <v-btn flat color="orange">Check History</v-btn>
+        </v-card-actions>
+      </v-card> 
     </v-flex>
   </v-layout>
 </template>

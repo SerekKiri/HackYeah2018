@@ -59,13 +59,22 @@
         to="/dashboard"
       >
         <span class="mr-2 ml-0">Go back</span>
-        <v-icon>mdi-exit-run</v-icon>
+        <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </v-toolbar>
 
     <v-content>
       <router-view />
     </v-content>
+    <v-footer
+      class="text-xs-right"
+    >
+      <span
+        class="ma-2"
+      >
+        ChatPlug
+      </span>
+    </v-footer>
   </v-app>
 </template>
 
