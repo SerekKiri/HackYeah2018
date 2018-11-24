@@ -59,7 +59,7 @@
         to="/dashboard"
       >
         <span class="mr-2 ml-0">Go back</span>
-        <v-icon>mdi-arrow-back</v-icon>
+        <v-icon>mdi-exit-run</v-icon>
       </v-btn>
     </v-toolbar>
 
