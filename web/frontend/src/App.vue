@@ -23,6 +23,26 @@
         <span class="mr-2">Log in</span>
         <v-icon>mdi-account</v-icon>
       </v-btn>
+
+      <v-btn
+        class="mr-0"
+        flat
+        v-if="['dash'].indexOf($route.name) > -1"
+        to="/settings"
+      >
+        <span class="mr-2">Settings</span>
+        <v-icon>mdi-settings</v-icon>
+      </v-btn>
+
+      <v-btn
+        class="ml-0"
+        flat
+        v-if="['dash'].indexOf($route.name) > -1"
+        v-on:click="logOut()"
+      >
+        <span class="mr-2 ml-0">Log out</span>
+        <v-icon>mdi-exit-to-app</v-icon>
+      </v-btn>
     </v-toolbar>
 
     <v-content>
@@ -38,6 +58,11 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
   components: {
   },
+  methods: {
+    logOut() {
+      localStorage.clear();
+    }
+  }
 })
 export default class Home extends Vue {}
 </script>
