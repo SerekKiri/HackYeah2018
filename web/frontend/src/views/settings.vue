@@ -113,5 +113,8 @@ export default class Settings extends Vue {
       goDark: false
     }
   }
+  watch: {
+      
+  }
 }
 </script>
