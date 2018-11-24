@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitlocker/utils/utils.dart';
 
 class Api {
@@ -12,8 +11,9 @@ class Api {
     var response = await http.post(url, body: user, headers: Map.from({
       "Content-Type": "application/json"
       }));
-    var dupa = json.decode(response.toString());
-    dupa["token"];
+    var decoded = json.decode(response.toString());
+    var token = decoded["token"];
+    prefs.setString('token', token);
   }
 }
 
