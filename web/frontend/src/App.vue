@@ -39,9 +39,19 @@
         flat
         v-if="['dash'].indexOf($route.name) > -1"
         v-on:click="logOut()"
+        to="/"
       >
         <span class="mr-2 ml-0">Log out</span>
         <v-icon>mdi-exit-to-app</v-icon>
+      </v-btn>
+      <v-btn
+        class="ml-0"
+        flat
+        v-if="['settings'].indexOf($route.name) > -1"
+        to="/dashboard/dash"
+      >
+        <span class="mr-2 ml-0">Go back</span>
+        <v-icon>mdi-arrow-back</v-icon>
       </v-btn>
     </v-toolbar>
 
