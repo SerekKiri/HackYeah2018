@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/models/app.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:fitlocker/widgets/widgets.dart';
 
 class HomeScreenModel extends Model {
   List<App> remoteApps = [];
-  bool _isLoading = true;
   Future loadApps() async {
     this.remoteApps = await api.fetchApps();
-    this._isLoading = false;
     notifyListeners();
   }
   Future load() async {

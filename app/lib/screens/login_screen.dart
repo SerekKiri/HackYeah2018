@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/models/user.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 typedef void LoginCallback();
 
