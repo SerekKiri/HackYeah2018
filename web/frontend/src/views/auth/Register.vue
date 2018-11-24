@@ -37,7 +37,6 @@
                                     name="password"
                                     label="Password"
                                     type="password"
-                                    v-model="password"
                                 ></v-text-field>
                             </v-form>
                         </v-card-text>
@@ -53,13 +52,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue , Watch} from "vue-property-decorator";
+import { Component, Vue , Watch, Prop} from "vue-property-decorator";
 import axios from 'axios'
 
 export default class RegisterPage extends Vue {
-    userName: string;
-    email: string;
-    password: string;
+    @Prop()
+    userName!: string;
+    email!: string;
+    password!: string;
     async register() {
         await axios.post("/api/auth/users",
             {

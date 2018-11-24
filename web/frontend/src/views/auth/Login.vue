@@ -38,14 +38,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue , Watch} from "vue-property-decorator";
+import { Component, Vue , Watch, Prop} from "vue-property-decorator";
 import axios from 'axios'
 
 export default class LoginPage extends Vue {
-    email: string;
-    password: string;
-    userToken: string;
-    data: [];
+    @Prop()
+    email!: string;
+    password!: string;
+    userToken!: string;
+    // data: [];
     // errors: [];
     async post() {
         await axios.post("/auth/login", {
@@ -56,7 +57,7 @@ export default class LoginPage extends Vue {
             console.log(response)
         })
         .catch(e => {
-      console.log(e)
+            console.log(e)
     })
     }
     mounted() {
