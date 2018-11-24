@@ -33,9 +33,8 @@ class LockingScreenWidget extends StatelessWidget {
             RaisedButton(onPressed: () {
               SharedPreferences.getInstance().then((sp) async {
                 await sp.setBool(packageName + '.unlocked', true);
-SystemNavigator.pop();
+                SystemNavigator.pop();
               });
-              
             },
             child: Text('Unlock'),)
           ],

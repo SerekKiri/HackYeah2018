@@ -6,7 +6,7 @@ import 'package:fitlocker/models/app.dart';
 
 class Api {
 
-  Future<Map> loginUser(Map data) async {
+  loginUser(Map data) async {
     await supaPrefs.init();
     var user = json.encode(data);
     var url = 'http://fitlocker.eu.ngrok.io/api/auth/login';
@@ -26,7 +26,7 @@ class Api {
       var redirectUrl = await http.get("http://fitlocker.eu.ngrok.io/api/fit/google/connect", 
       headers: {"Authorization" : "Bearer $token"});
       await _launchUrl(json.decode(redirectUrl.body)["redirectUrl"]);
-    } 
+    }
   }
 
   _launchUrl(String url) async {
@@ -37,7 +37,7 @@ class Api {
 
   Future<List<App>> fetchApps() async {
     await supaPrefs.init();
-    var token = await supaPrefs.getPrefs().getString('token');
+    var token = supaPrefs.getPrefs().getString('token');
     var url = "http://fitlocker.eu.ngrok.io/api/fit/tracked-apps";
     var response = await http.get(url, headers: {
       "Authorization" : "Bearer $token"
