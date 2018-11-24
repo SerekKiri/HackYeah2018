@@ -32,6 +32,11 @@ export default new Router({
       path: '/settings',
       name: 'settings',
       component: () => import('./views/settings.vue')
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: () => import('./views/dashboard/history.vue')
     }
   ],
 });

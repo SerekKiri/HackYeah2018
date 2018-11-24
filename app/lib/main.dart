@@ -48,7 +48,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   bool reallyloggedin = false;
-  final List<Widget> _children = [AllowanceScreen(), Text('todo xD') ];
+  final List<Widget> _children = [AllowanceScreen(), Text('todo xD'), Center(child: Text('home idk')) ];
   
   @override
   void initState() {
@@ -84,6 +84,11 @@ class _MainScreenState extends State<MainScreen> {
               IconButton(
                 icon: Icon(Icons.shop),
                 onPressed: () => this.setState(() { this._currentIndex = 1; }),
+                color: Color(_currentIndex == 1 ? 0xff3c84c1 : 0xff666666),
+              ),
+              IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () => this.setState(() { this._currentIndex = 2; }),
                 color: Color(_currentIndex == 1 ? 0xff3c84c1 : 0xff666666),
               ),
             ],

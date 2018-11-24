@@ -3,7 +3,7 @@
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
         <span>FitLocker</span>
-        <span class="font-weight-light">.IO</span>
+        <span class="font-weight-light">.club</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -59,13 +59,21 @@
         to="/dashboard"
       >
         <span class="mr-2 ml-0">Go back</span>
-        <v-icon>mdi-arrow-back</v-icon>
+        <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
     </v-toolbar>
 
     <v-content>
       <router-view />
     </v-content>
+    <v-footer
+    >
+      <span
+        class="ml-2"
+      >
+        ChatPlug &copy; 2018
+      </span>
+    </v-footer>
   </v-app>
 </template>
 

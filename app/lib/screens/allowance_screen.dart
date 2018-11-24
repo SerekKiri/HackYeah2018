@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'dart:ui';
 import 'dart:async';
+import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/utils/utils.dart';
+import 'package:fitlocker/models/app.dart';
+
 import 'package:scoped_model/scoped_model.dart';
 
 Future<List<App>> getAppList () async {
-  await supaPrefs.init();
+  /*await supaPrefs.init();
   var apps = List<String>.from(await platform.invokeMethod('queryPackages'));
   print(apps);
   List<App> unsortedApps = List<App>.from(
@@ -23,9 +26,9 @@ Future<List<App>> getAppList () async {
   );
 
   unsortedApps.sort();
-  return unsortedApps;
+  return unsortedApps;*/
 }
-
+/*
 class App extends Comparable {
   String name;
   String packageName;
@@ -38,22 +41,27 @@ class App extends Comparable {
       if (other.name == null || this.name == null) return 0;
       return this.name.compareTo(other.name);
     }
-}
+}*/
 
 class AppListModel extends Model {
-  List<App> apps = [];
+  List<App> remoteApps = [];
   bool _isLoading = true;
   Future loadApps() async {
-    this.apps = await getAppList();
+    this.remoteApps = await api.fetchApps();
     this._isLoading = false;
     notifyListeners();
   }
-
+  Future load() async {
+        //await api.fetchApps();
+    //this.storagedApps = await getAppList();
+    //this._isLoading = false;
+    //notifyListeners();
+  }
   void toggleApp(int index) async {
-    App app = apps[index];
-    await supaPrefs.getPrefs().setBool(app.packageName, !app.isBlocked);
-    app.isBlocked = !app.isBlocked;
-    notifyListeners();
+    // App app = storagedApps[index];
+    // await supaPrefs.getPrefs().setBool(app.packageName, !app.isBlocked);
+    // app.isBlocked = !app.isBlocked;
+    // notifyListeners();
   }
 }
 
@@ -80,15 +88,15 @@ class AllowanceScreen extends StatelessWidget {
               if (model._isLoading) {
                 return Center(child: CircularProgressIndicator());
               } else {
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(10.0),
-                    itemBuilder: (context, i) {
-                      if (i.isOdd) return Divider();
-                      final index = i ~/ 2;
-                      return _buildApp(index, model);
-                    },
-                    itemCount: model.apps.length * 2
-                  );
+                return ListView.builder(
+                  padding: const EdgeInsets.all(10.0),
+                  itemBuilder: (context, i) {
+                    if (i.isOdd) return Divider();
+                    final index = i ~/ 2;
+                    return _buildApp(index, model);
+                  },
+                  itemCount: model.remoteApps.length * 2
+                );
               }
             },
           )
@@ -104,14 +112,9 @@ class AllowanceScreen extends StatelessWidget {
         child: Row(
           children:<Widget>[
             Expanded(
-              child: Text(model.apps[index].name, style: TextStyle(fontSize: 16.0))
+              child: Text(model.remoteApps[index].friendlyName, style: TextStyle(fontSize: 16.0))
             ),
-            Switch(
-              value: model.apps[index].isBlocked,
-              onChanged: (bool value) {
-                model.toggleApp(index);
-              },
-            ),
+            Text(model.remoteApps[index].costPerMinute.toString(), style: TextStyle(fontSize: 16.0))
           ],
         )
       )
