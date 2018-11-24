@@ -55,7 +55,7 @@
       <v-btn
         class="ml-0"
         flat
-        v-if="['settings'].indexOf($route.name) > -1"
+        v-if="['settings', 'history'].indexOf($route.name) > -1"
         to="/dashboard"
       >
         <span class="mr-2 ml-0">Go back</span>
