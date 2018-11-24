@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'dart:ui';
 import 'dart:async';
 import 'package:fitlocker/lockingscreen.dart';
+import 'package:fitlocker/widgets/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'supaprefs.dart';
 
