@@ -25,14 +25,9 @@ export class OauthClientService {
     if (!user.googleTokens) {
       throw new Error('Token data empty');
     }
-    oauth2Client.setCredentials(JSON.parse(user.googleTokens));
-    oauth2Client.on('tokens', async tokens => {
-      if (tokens.refresh_token) {
-        console.log('RECEIVED NEW GOOGLE TOKENS');
-        user.googleTokens = JSON.stringify(tokens);
-        await this.userRepository.save(user);
-      }
-    });
+    
+    oauth2Client.setCredentials({refresh_token: JSON.parse(user.googleTokens).refresh_token});
+
     return oauth2Client;
   }
 }

@@ -79,6 +79,7 @@ export default class GoogleApiController {
     const oauth2Client = this.oauthClientService.createOauthClient();
 
     const { tokens } = await oauth2Client.getToken(code);
+    console.log({ tokens });
     oauth2Client.setCredentials(tokens);
     const ds = new fitness_v1.Resource$Users$Datasources(
       new fitness_v1.Fitness({
