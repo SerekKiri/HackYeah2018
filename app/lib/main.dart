@@ -48,7 +48,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   bool reallyloggedin = false;
-  final List<Widget> _children = [AllowanceScreen(),NewHomeScreen(), Center(child: Text('home idk')) ];
+  final List<Widget> _children = [AllowanceScreen(),NewHomeScreen(), RedeemScreen() ];
   
   @override
   void initState() {
