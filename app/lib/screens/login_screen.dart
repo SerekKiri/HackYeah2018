@@ -55,7 +55,8 @@ class LoginForm extends StatelessWidget {
                 hintText: "email"
               ),
               onSaved: (email) => userToLogIn.email = email,
-            ),),
+            )
+          ),
           TextFormField(
             decoration: InputDecoration(
               hintText: "password"
@@ -80,7 +81,8 @@ class LoginForm extends StatelessWidget {
                 color: Colors.white
               )),
               color: Theme.of(context).accentColor,
-          ))
+            )
+          )
         ],
       ),
     );
