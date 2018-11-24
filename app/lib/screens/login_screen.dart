@@ -60,6 +60,7 @@ class LoginForm extends StatelessWidget {
             decoration: InputDecoration(
               hintText: "password"
             ),
+            obscureText: true,
             onSaved: (password) => userToLogIn.password = password,
           ),
           Padding(
