@@ -3,7 +3,7 @@
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
         <span>FitLocker</span>
-        <span class="font-weight-light">.IO</span>
+        <span class="font-weight-light">.club</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -67,12 +67,11 @@
       <router-view />
     </v-content>
     <v-footer
-      class="text-xs-right"
     >
       <span
-        class="ma-2"
+        class="ml-2"
       >
-        ChatPlug
+        ChatPlug &copy; 2018
       </span>
     </v-footer>
   </v-app>
