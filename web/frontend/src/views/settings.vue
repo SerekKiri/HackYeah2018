@@ -108,13 +108,10 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class Settings extends Vue {
-    data() {
+  data() {
     return {
       goDark: false
     }
-  }
-  watch: {
-      
   }
 }
 </script>
