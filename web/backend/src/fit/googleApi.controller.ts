@@ -8,6 +8,8 @@ import {
   Req,
   UseGuards,
   HttpStatus,
+  Body,
+  ConflictException,
 } from '@nestjs/common';
 import { fitness_v1, google } from 'googleapis';
 
@@ -25,6 +27,7 @@ import { ConnectedToGoogleDto } from './connectedToGoogle.dto';
 import { activityCodeToName } from './activityCodes';
 import { FormattedCaloriesDto } from './formattedCalories.dto';
 import { GoogleFitService } from './googleFit.service';
+import { ConvertedActivity } from './convertedActivity.entity';
 
 const scopes = [
   'https://www.googleapis.com/auth/fitness.activity.read',
@@ -40,6 +43,8 @@ export default class GoogleApiController {
     private oauthClientService: OauthClientService,
     private googleFitService: GoogleFitService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(ConvertedActivity)
+    private readonly convertedActivityRepository: Repository<ConvertedActivity>,
   ) {}
   @Get('/connect')
   @ApiBearerAuth()
@@ -140,7 +145,7 @@ export default class GoogleApiController {
           startTimeMillis: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
           endTimeMillis: new Date().getTime(),
           bucketByTime: {
-              durationMillis: 0,
+            durationMillis: 0,
             period: 1,
             type: 'day',
           },
@@ -152,5 +157,40 @@ export default class GoogleApiController {
       console.log(e.response.data);
     }
     return null;
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Post('/convert')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Returns convertedActivity',
+    type: ConvertedActivity,
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'When this activity was already converted',
+  })
+  async convert(@Body() data: FormattedCaloriesDto, @Req() req: Request) {
+    const user: User = (req as any).user.user;
+    if (
+      await this.convertedActivityRepository.findOne({
+        select: ['id'],
+        where: { conversionHash: data.conversionHash },
+      })
+    ) {
+      throw new ConflictException(
+        'This activity was already converted to points!',
+      );
+    }
+
+    const act = new ConvertedActivity();
+    act.points = data.points;
+    act.conversionHash = data.conversionHash;
+    act.user = user;
+    await this.convertedActivityRepository.save(act);
+    user.points += data.points;
+    await this.userRepository.save(user);
+    return act;
   }
 }

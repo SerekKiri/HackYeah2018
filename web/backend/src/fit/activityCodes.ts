@@ -60,7 +60,7 @@ export const activityCodes = [
   { name: 'Rowing', code: 53 },
   { name: 'Rowing machine', code: 54 },
   { name: 'Rugby', code: 55 },
-  { name: 'Running*', code: 8 },
+  { name: 'Running*', code: 8, pointsModifier: 2 },
   { name: 'Jogging', code: 56 },
   { name: 'Running on sand', code: 57 },
   { name: 'Running (treadmill)', code: 58 },
@@ -107,7 +107,7 @@ export const activityCodes = [
   { name: 'Volleyball (beach)', code: 90 },
   { name: 'Volleyball (indoor)', code: 91 },
   { name: 'Wakeboarding', code: 92 },
-  { name: 'Walking*', code: 7 },
+  { name: 'Walking*', code: 7, pointsModifier: 1.2 },
   { name: 'Walking (fitness)', code: 93 },
   { name: 'Nording walking', code: 94 },
   { name: 'Walking (treadmill)', code: 95 },
@@ -126,4 +126,12 @@ export function activityCodeToName(code: number) {
     return 'Unknown activity';
   }
   return act.name;
+}
+
+export function getPointsModifier(code: number) {
+  const act = activityCodes.find(a => a.code === code);
+  if (!act || !act.pointsModifier) {
+    return 1;
+  }
+  return act.pointsModifier;
 }

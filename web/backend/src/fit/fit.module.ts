@@ -12,10 +12,17 @@ import { TrackedAppsController } from './trackedApps.controller';
 import { Allowance } from './allowance.entity';
 import { AllowanceController } from './allowance.controller';
 import { GoogleFitService } from './googleFit.service';
+import { ConvertedActivity } from './convertedActivity.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Session, TrackedApp, Allowance]),
+    TypeOrmModule.forFeature([
+      User,
+      Session,
+      TrackedApp,
+      Allowance,
+      ConvertedActivity,
+    ]),
     PassportModule.register({ defaultStrategy: 'bearer' }),
   ],
   providers: [OauthClientService, GoogleFitService],

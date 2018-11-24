@@ -17,6 +17,7 @@ import {
   ConflictException,
   Delete,
   Patch,
+  NotAcceptableException,
 } from '@nestjs/common';
 import { CreateTrackedAppDto } from './createTrackedApp.dto';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
@@ -40,6 +41,8 @@ export class TrackedAppsController {
     private readonly trackedAppRepository: Repository<TrackedApp>,
     @InjectRepository(Allowance)
     private readonly allowanceRepository: Repository<Allowance>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   @Post('/')
@@ -98,9 +101,14 @@ export class TrackedAppsController {
   async postRedeem(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: RedeemDto,
+    @Req() req: Request,
   ) {
     const trackedApp = await this.trackedAppRepository.findOneOrFail(id);
-
+    const user: User = (req as any).user.user;
+    user.points -= data.minutes * trackedApp.costPerMinute;
+    if (user.points < 0) {
+      throw new NotAcceptableException('Too little points!');
+    }
     let allowance = await this.allowanceRepository.findOne({
       where: {
         app: {
@@ -116,7 +124,9 @@ export class TrackedAppsController {
     }
     allowance.lastSubtracted = new Date();
     allowance.minutesLeft += data.minutes * trackedApp.costPerMinute;
+
     await this.allowanceRepository.save(allowance);
+    await this.userRepository.save(user);
     return allowance;
   }
 
