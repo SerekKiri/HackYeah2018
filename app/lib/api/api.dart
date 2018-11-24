@@ -12,10 +12,8 @@ class Api {
     var response = await http.post(url, body: user, headers: Map.from({
       "Content-Type": "application/json"
       }));
-        print('dupa0');
     var decoded = json.decode(response.body.toString());
     var token = decoded["token"];
-    print('dupa1');
     var prefs = supaPrefs.getPrefs();
     await prefs.setString('token', token);
 
