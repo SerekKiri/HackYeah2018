@@ -2,7 +2,7 @@
   <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>GRUBAS</span>
+        <span>FitLocker</span>
         <span class="font-weight-light">.IO</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
