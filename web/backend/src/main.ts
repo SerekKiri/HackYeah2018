@@ -9,6 +9,7 @@ async function bootstrap() {
     .setDescription('The grubas API description')
     .setVersion('1.0')
     .setBasePath('/api')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/docs', app, document);
