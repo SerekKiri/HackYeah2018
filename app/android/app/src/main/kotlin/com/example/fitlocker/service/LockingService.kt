@@ -91,8 +91,22 @@ class LockingService : NonStopIntentService("LockingService") {
     private fun checkData() {
         while (threadIsTerminate) {
             val packageName = getLauncherTopApp(this@LockingService, activityManager)
-            if (prefs.getBoolean("flutter.$packageName", false) && prefs.getString("flutter.currentlyLocking", "") != packageName && !prefs.getBoolean("flutter.$packageName.unlocked", false)) {
-                startActivity(LockingActivity.createIntent(this, packageName))
+            if (prefs.getBoolean("flutter.$packageName", false)
+                    && prefs.getString("flutter.currentlyLocking", "")
+                    != packageName) {
+                if (!prefs.getBoolean("flutter.$packageName.unlocked", false)) {
+                    startActivity(LockingActivity.createIntent(this, packageName))
+                } else {
+                    if (prefs.getString("flutter.$packageName.lastLockTimestamp", "ddd") != "ddd" ){
+                        val lastLock = prefs.getString("flutter.$packageName.lastLockTimestamp", "ddd") as String;
+                        val period = prefs.getString("flutter.$packageName.lockingPeriod", "30000") as String;
+                        val milis = System.currentTimeMillis() / 1000
+                        if (milis - lastLock.toDouble() > period.toDouble()) {
+                            prefs.edit().putBoolean("flutter.$packageName.unlocked", false).commit()
+                        }
+
+                    }
+                }
             }
 
             try {
