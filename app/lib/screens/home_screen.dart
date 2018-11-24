@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fitlocker/api/api.dart';
 
-class homeScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
