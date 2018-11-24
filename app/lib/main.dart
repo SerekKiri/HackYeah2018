@@ -3,11 +3,26 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:fitlocker/lockingscreen.dart';
 import 'package:fitlocker/screens/screens.dart';
+import 'package:fitlocker/utils/utils.dart';
 
-void main() => runApp(FitLocker());
-void lockingscreen() => runApp(LockingScreen(packageName: window.defaultRouteName));
+void main() => supaPrefs.init().then((d) async { 
+  var loggedIn = false;
+  try {
+    loggedIn = supaPrefs.getPrefs().getString('token') is String;
+  } catch (e) {}
+  if (!(loggedIn is bool)) {
+    loggedIn = false;
+  } 
+  if (!loggedIn) {}
+  
+  
+  runApp(FitLocker(loggedIn)); 
+});
+void lockingscreen() => supaPrefs.init().then((d) { runApp(LockingScreen(packageName: window.defaultRouteName)); });
 
 class FitLocker extends StatelessWidget {
+  final bool loggedIn;
+  FitLocker(this.loggedIn);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,31 +30,47 @@ class FitLocker extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainScreen(),
+      home: MainScreen(loggedIn),
     );
   }
 }
 
 class MainScreen extends StatefulWidget {
-
+  final bool loggedIn;
+  MainScreen(this.loggedIn);
+  
   @override
-    State<StatefulWidget> createState() {
-      return _MainScreenState();
-    }
+  State<StatefulWidget> createState() {
+    return _MainScreenState();
+  }
 }
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  bool reallyloggedin = false;
   final List<Widget> _children = [AllowanceScreen(), Text('todo xD') ];
   
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.loggedIn && !this.reallyloggedin) {
+      return Scaffold(
+        body: LoginScreen(() {
+          setState(() {
+            reallyloggedin = true;
+          });
+        })
+      );
+    }
     return Scaffold(
-        body: _children[_currentIndex],
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        bottomNavigationBar: BottomAppBar(
-            child: new Padding(
+      body: _children[_currentIndex],
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      bottomNavigationBar: BottomAppBar(
+        child: new Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
           child: new Row(
             mainAxisSize: MainAxisSize.max,

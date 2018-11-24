@@ -23,11 +23,19 @@
         <span class="mr-2">Log in</span>
         <v-icon>mdi-account</v-icon>
       </v-btn>
+      <v-btn
+        flat
+        disabled
+        v-if="['dashboard'].indexOf($route.name) > -1"
+      >
+        <span class="mr-2">GO PRO</span>
+        <v-icon>mdi-professional-hexagon</v-icon>
+      </v-btn>
 
       <v-btn
         class="mr-0"
         flat
-        v-if="['dash'].indexOf($route.name) > -1"
+        v-if="['dashboard'].indexOf($route.name) > -1"
         to="/settings"
       >
         <span class="mr-2">Settings</span>
@@ -37,7 +45,7 @@
       <v-btn
         class="ml-0"
         flat
-        v-if="['dash'].indexOf($route.name) > -1"
+        v-if="['dashboard'].indexOf($route.name) > -1"
         v-on:click="logOut()"
         to="/"
       >
@@ -48,7 +56,7 @@
         class="ml-0"
         flat
         v-if="['settings'].indexOf($route.name) > -1"
-        to="/dashboard/dash"
+        to="/dashboard"
       >
         <span class="mr-2 ml-0">Go back</span>
         <v-icon>mdi-arrow-back</v-icon>
