@@ -44,4 +44,7 @@ export class User {
   @Exclude()
   @Column({ type: 'text', default: '' })
   googleTokens: string;
+
+  @Column()
+  points: number;
 }

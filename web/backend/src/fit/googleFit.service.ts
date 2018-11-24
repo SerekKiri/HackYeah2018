@@ -28,7 +28,7 @@ export class GoogleFitService {
 
         requestBody: {
           aggregateBy: [
-            // { dataTypeName: 'com.google.calories.expended' },
+            { dataTypeName: 'com.google.calories.expended' },
             { dataTypeName: 'com.google.activity.segment' },
           ],
           startTimeMillis: new Date().getTime() - 1000 * 60 * 60 * 24 * 1, // one day
@@ -36,32 +36,37 @@ export class GoogleFitService {
         },
       } as any);
       const dataFromApi = response.data;
-      const caloriePoints: any = { point: [] }; //dataFromApi.bucket[0].dataset[0];
-      const segmentPoints = dataFromApi.bucket[0].dataset[0];
-      const formattedData = segmentPoints.point.map(sp => {
-        let activityCode = sp.value[0].intVal;
-        return {
-          startTimeMilis: this.parseNanosToMilis(sp.startTimeNanos),
-          endTimeMilis: this.parseNanosToMilis(sp.endTimeNanos),
-          activityCode,
-          activityName: activityCodeToName(activityCode),
-          calories: 0,
-          minutes:
-            (this.parseNanosToMilis(sp.endTimeNanos) -
-              this.parseNanosToMilis(sp.startTimeNanos)) /
-            (1000 * 60),
-
-          //   calories: caloriePoints.point
-          //     .filter(
-          //       cp =>
-          //         this.parseNanosToMilis(cp.startTimeNanos) >=
-          //           this.parseNanosToMilis(sp.startTimeNanos) &&
-          //         this.parseNanosToMilis(cp.startTimeNanos) <
-          //           this.parseNanosToMilis(sp.endTimeNanos),
-          //     )
-          //     .reduce((sum, cp) => sum + cp.value[0].fpVal, 0),
-        };
-      });
+      const caloriePoints = dataFromApi.bucket[0].dataset[0];
+      const segmentPoints = dataFromApi.bucket[0].dataset[1];
+      const formattedData = segmentPoints.point
+        .map(sp => {
+          let activityCode = sp.value[0].intVal;
+          return {
+            startTimeMilis: this.parseNanosToMilis(sp.startTimeNanos),
+            endTimeMilis: this.parseNanosToMilis(sp.endTimeNanos),
+            originDataSourceId: sp.originDataSourceId,
+            activityCode,
+            activityName: activityCodeToName(activityCode),
+            minutes:
+              (this.parseNanosToMilis(sp.endTimeNanos) -
+                this.parseNanosToMilis(sp.startTimeNanos)) /
+              (1000 * 60),
+            _niceTime:
+              new Date(this.parseNanosToMilis(sp.startTimeNanos)) +
+              ' - ' +
+              new Date(this.parseNanosToMilis(sp.endTimeNanos)),
+            calories: caloriePoints.point
+              .filter(
+                cp =>
+                  this.parseNanosToMilis(cp.startTimeNanos) >=
+                    this.parseNanosToMilis(sp.startTimeNanos) &&
+                  this.parseNanosToMilis(cp.startTimeNanos) <
+                    this.parseNanosToMilis(sp.endTimeNanos),
+              )
+              .reduce((sum, cp) => sum + cp.value[0].fpVal, 0),
+          };
+        })
+        .sort((a, b) => a.startTimeMilis - b.startTimeMilis);
       return formattedData;
     } catch (e) {
       console.log(e);

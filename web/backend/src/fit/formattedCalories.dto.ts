@@ -15,4 +15,9 @@ export class FormattedCaloriesDto {
 
   @ApiModelProperty({ example: 1542538768065 })
   endTimeMilis: number;
+
+  originDataSourceId: string;
+
+  @ApiModelProperty({ example: 'for deugging only' })
+  _niceTime: string;
 }

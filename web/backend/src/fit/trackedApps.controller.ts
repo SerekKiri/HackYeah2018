@@ -15,6 +15,8 @@ import {
   Param,
   ParseIntPipe,
   ConflictException,
+  Delete,
+  Patch,
 } from '@nestjs/common';
 import { CreateTrackedAppDto } from './createTrackedApp.dto';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
@@ -22,7 +24,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { TrackedApp } from './trackedApp.entity';
 import { User } from 'src/auth/user.entity';
 import { Request } from 'express';
-import { plainToClass } from 'class-transformer';
+import { plainToClass, plainToClassFromExist } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundExceptionFilter } from 'src/core/EntityNotFoundExeptionFilter';
@@ -116,5 +118,29 @@ export class TrackedAppsController {
     allowance.minutesLeft += data.minutes * trackedApp.costPerMinute;
     await this.allowanceRepository.save(allowance);
     return allowance;
+  }
+
+  @Delete('/:id')
+  @UseFilters(new EntityNotFoundExceptionFilter('Tracked app not found.'))
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  async deleteTrackedApp(@Param('id', ParseIntPipe) id: number) {
+    const trackedApp = await this.trackedAppRepository.findOneOrFail(id);
+    await this.trackedAppRepository.delete(trackedApp);
+    return {};
+  }
+
+  @Patch('/:id')
+  @UseFilters(new EntityNotFoundExceptionFilter('Tracked app not found.'))
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  async patchTrackedApp(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: CreateTrackedAppDto,
+  ) {
+    const trackedApp = await this.trackedAppRepository.findOneOrFail(id);
+    plainToClassFromExist(TrackedApp, data);
+    await this.trackedAppRepository.save(trackedApp);
+    return trackedApp;
   }
 }

@@ -114,4 +114,43 @@ export default class GoogleApiController {
     const user: User = (req as any).user.user;
     return this.googleFitService.getActivitiesForUser(user);
   }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Get('/ddd')
+  async testStuff(@Req() req) {
+    const user: User = (req as any).user.user;
+    const oauth2Client = this.oauthClientService.createOauthClientWithUser(
+      user,
+    );
+    const ds = new fitness_v1.Resource$Users$Dataset(
+      new fitness_v1.Fitness({
+        auth: oauth2Client,
+      }),
+    );
+
+    try {
+      const resp = await ds.aggregate({
+        userId: 'me',
+        requestBody: {
+          aggregateBy: [
+            { dataTypeName: 'com.google.activity.summary' },
+            { dataTypeName: 'com.google.activity.segment' },
+          ],
+          startTimeMillis: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+          endTimeMillis: new Date().getTime(),
+          bucketByTime: {
+              durationMillis: 0,
+            period: 1,
+            type: 'day',
+          },
+        },
+      } as any);
+
+      return resp.data;
+    } catch (e) {
+      console.log(e.response.data);
+    }
+    return null;
+  }
 }
