@@ -50,8 +50,9 @@ class AppListModel extends Model {
   }
 
   void toggleApp(int index) async {
-    await supaPrefs.getPrefs().setBool(apps[index].packageName, !apps[index].isBlocked);
-    apps[index].isBlocked = !apps[index].isBlocked;
+    App app = apps[index];
+    await supaPrefs.getPrefs().setBool(app.packageName, !app.isBlocked);
+    app.isBlocked = !app.isBlocked;
     notifyListeners();
   }
 }
