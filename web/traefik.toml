@@ -1,0 +1,26 @@
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+# [frontends]
+#   [frontends.api_frontend]
+#     [frontends.api_frontend.routes.test_1]
+#       rule = "PathPrefixStrip:/api/"
+#     [frontends.api_frontend.customrequestheaders]
+#       Host = "api.virtualhost"
+#     backend = "api_backend"
+#   [frontends.docs_frontend]
+#     [frontends.docs_frontend.routes.test_1]
+#       rule = "PathPrefixStrip:/docs/"
+#     [frontends.docs_frontend.customrequestheaders]
+#       Host = "api.virtualhost"
+#     backend = "docs_backend"
+[api]
+  # Name of the related entry point
+  #
+  # Optional
+  # Default: "traefik"
+  #
+  entryPoint = "traefik"
+[docker]
+
+endpoint = "unix:///var/run/docker.sock"

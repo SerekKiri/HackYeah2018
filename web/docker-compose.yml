@@ -1,0 +1,75 @@
+version: "3.4"
+services:
+  api:
+    tty: true
+    build: ./backend
+    command: npm run start
+    links:
+      - db
+    volumes:
+      - ./backend:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - 3000
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=hackyeah!
+      - DB=grubas_io
+    labels:
+      traefik.api.frontend.rule: PathPrefixStrip:/api/
+      traefik.api.frontend.headers: customRequestHeaders=Host:api.virtualhost
+      traefik.docs.frontend.rule: PathPrefix:/docs/
+      traefik.docs.headers.customRequestHeaders: Host:api.virtualhost
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: hackyeah!
+      MYSQL_DATABASE: grubas_io
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - db-data:/var/lib/mysql
+  phpmyadmin:
+    links:
+      - db
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=hackyeah!
+      - PMA_ABSOLUTE_URI=http://pma.virtualhost/pma/
+    restart: always
+    volumes:
+      - /sessions
+    labels:
+      traefik.frontend.rule: PathPrefixStrip:/pma/
+      traefik.frontend.headers.customRequestHeaders: Host:pma.virtualhost
+  frontend:
+    tty: true
+    image: node:alpine
+    ports:
+      - 8080
+    volumes: 
+      - ./frontend:/usr/frontend
+    command: npm run serve
+    working_dir: /usr/frontend
+    labels:
+      traefik.frontend.rule: PathPrefixStrip:/
+      traefik.frontend.headers.customRequestHeaders: Host:localhost
+  reverse-proxy:
+    image: traefik # The official Traefik docker image
+    command: --configFile=/etc/traefik/traefik.toml
+    ports:
+      - "80:80" # The HTTP port
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/etc/traefik/traefik.toml
+    labels:
+      traefik.enable: "true"
+      traefik.port: "8080"
+      traefik.frontend.rule: PathPrefixStrip:/traefik/
+      traefik.frontend.headers.customRequestHeaders: Host:localhost:8080
