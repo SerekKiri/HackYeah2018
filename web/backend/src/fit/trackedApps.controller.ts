@@ -14,6 +14,7 @@ import {
   UseFilters,
   Param,
   ParseIntPipe,
+  ConflictException,
 } from '@nestjs/common';
 import { CreateTrackedAppDto } from './createTrackedApp.dto';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
@@ -48,8 +49,21 @@ export class TrackedAppsController {
     type: TrackedApp,
   })
   async postTrackedApp(@Body() data: CreateTrackedAppDto, @Req() req: Request) {
-    const trackedApp = plainToClass(TrackedApp, data);
     const user: User = (req as any).user.user;
+    if (
+      await this.trackedAppRepository.findOne({
+        where: {
+          appIdentifier: data.appIdentifier,
+          appType: data.appType,
+          user: { id: user.id },
+        },
+      })
+    ) {
+      throw new ConflictException(
+        'An app with this app identifier for this user exists',
+      );
+    }
+    const trackedApp = plainToClass(TrackedApp, data);
 
     trackedApp.user = user;
     await this.trackedAppRepository.save(trackedApp);
@@ -76,7 +90,7 @@ export class TrackedAppsController {
   }
 
   @Post('/:id/redeem')
-  @UseFilters(new EntityNotFoundExceptionFilter('Trackend app not found.'))
+  @UseFilters(new EntityNotFoundExceptionFilter('Tracked app not found.'))
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   async postRedeem(

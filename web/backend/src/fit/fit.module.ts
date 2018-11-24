@@ -10,6 +10,7 @@ import { OauthClientService } from './oauthClient.service';
 import { TrackedApp } from './trackedApp.entity';
 import { TrackedAppsController } from './trackedApps.controller';
 import { Allowance } from './allowance.entity';
+import { AllowanceController } from './allowance.controller';
 
 @Module({
   imports: [
@@ -17,6 +18,10 @@ import { Allowance } from './allowance.entity';
     PassportModule.register({ defaultStrategy: 'bearer' }),
   ],
   providers: [OauthClientService],
-  controllers: [GoogleApiController, TrackedAppsController],
+  controllers: [
+    GoogleApiController,
+    TrackedAppsController,
+    AllowanceController,
+  ],
 })
 export class FitModule {}
