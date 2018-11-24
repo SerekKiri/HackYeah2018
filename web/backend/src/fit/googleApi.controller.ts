@@ -22,6 +22,9 @@ import { Session } from 'src/auth/session.entity';
 import { GoogleRedirectDto } from './googleRedirect.dto';
 import { fitness } from 'googleapis/build/src/apis/fitness';
 import { ConnectedToGoogleDto } from './connectedToGoogle.dto';
+import { activityCodeToName } from './activityCodes';
+import { FormattedCaloriesDto } from './formattedCalories.dto';
+import { GoogleFitService } from './googleFit.service';
 
 const scopes = [
   'https://www.googleapis.com/auth/fitness.activity.read',
@@ -35,6 +38,7 @@ const scopes = [
 export default class GoogleApiController {
   constructor(
     private oauthClientService: OauthClientService,
+    private googleFitService: GoogleFitService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
   @Get('/connect')
@@ -96,63 +100,18 @@ export default class GoogleApiController {
       connected: !!user.googleTokens,
     };
   }
+
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  @Get('/redeemable-calories')
-  async testStuff(@Req() req) {
+  @Get('/convertable-calories')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Returns calories which the user can convert to points',
+    type: FormattedCaloriesDto,
+    isArray: true,
+  })
+  async convertableCalories(@Req() req) {
     const user: User = (req as any).user.user;
-    const oauth2Client = this.oauthClientService.createOauthClientWithTokens(
-      user.googleTokens,
-    );
-    const ds = new fitness_v1.Resource$Users$Dataset(
-      new fitness_v1.Fitness({
-        auth: oauth2Client,
-      }),
-    );
-
-    console.log({
-      userId: 'me',
-      endTime: new Date(new Date().getTime() - 1).toISOString(),
-      startTime: new Date(
-        new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
-      ).toISOString(),
-    });
-    try {
-      const data = await ds.aggregate({
-        userId: 'me',
-
-        requestBody: {
-          aggregateBy: [{ dataTypeName: 'com.google.calories.expended' }],
-          startTimeMillis: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
-          endTimeMillis: new Date().getTime(),
-        },
-      } as any);
-    //   return data.data.bucket.map(b => ({
-    //     data: b.dataset.map(d => ({
-    //       startNanos: Math.min(
-    //         ...d.point.map(point => parseFloat(point.startTimeNanos)),
-    //       ),
-    //       endNanos: Math.max(
-    //         ...d.point.map(point => parseFloat(point.endTimeNanos)),
-    //       ),
-    //       calories: d.point.reduce(
-    //         (prev, dataPoint) => prev + dataPoint.value[0].fpVal,
-    //         0,
-    //       ),
-    //     })),
-    //   }));
-    return data.data.bucket.map(b => ({
-            data: b.dataset.map(d => ({
-                data:  d.point.map(point => ({
-                    startTimeNanos: point.startTimeNanos,
-                    endTimeNanos: point.endTimeNanos,
-                    calories: point.value[0].fpVal
-                }))
-            })),
-          }));
-    } catch (e) {
-      console.log(e.response.data);
-    }
-    return null;
+    return this.googleFitService.getActivitiesForUser(user);
   }
 }
