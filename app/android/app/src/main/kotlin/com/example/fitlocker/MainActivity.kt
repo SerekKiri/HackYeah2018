@@ -12,7 +12,7 @@ import android.util.Log
 
 
 class MainActivity: FlutterActivity() {
-    val PLATFORM_CHANNEL = "feelfreelinux.github.io/applocker"
+    val PLATFORM_CHANNEL = "feelfreelinux.github.io/fitlocker"
 
   override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class MainActivity: FlutterActivity() {
                       PackageManager.PERMISSION_GRANTED).map {
                   it.activityInfo.applicationInfo.loadLabel(pm).toString() + ';' + it.activityInfo.applicationInfo.packageName
               }
-              Log.v("AppLocker", data[0])
+              Log.v("FitLocker", data[0])
               result.success(data)
           }
       }
