@@ -9,8 +9,11 @@ import {
   ValidationPipe,
   HttpStatus,
   HttpCode,
+  Req,
+  Get,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LoginDto } from './login.dto';
@@ -18,6 +21,8 @@ import { PasswordHashingService } from './passwordHashing.service';
 import { User } from './user.entity';
 import { Session } from './session.entity';
 import { randomBytes } from 'crypto';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 @Controller('/auth')
 @UsePipes(ValidationPipe)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -69,5 +74,17 @@ export class AuthController {
     });
     await this.sessionRepository.save(session);
     return session;
+  }
+
+  @Get('/current-session')
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Current session',
+    type: Session,
+  })
+  @UseGuards(AuthGuard())
+  async currentSession(@Req() req: Request) {
+    return (req as any).user;
   }
 }

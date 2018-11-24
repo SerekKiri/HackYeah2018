@@ -1,3 +1,3 @@
 # FitLocker
 
-> move your lazy ass lol
+> move ur lazy ass lol
