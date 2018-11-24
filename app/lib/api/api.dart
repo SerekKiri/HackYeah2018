@@ -38,7 +38,7 @@ class Api {
       "friendlyName": friendlyName
     }));
     await supaPrefs.init();
-    var token = await supaPrefs.getPrefs().getString('token');
+    var token = supaPrefs.getPrefs().getString('token');
     var url = 'http://fitlocker.eu.ngrok.io/api/fit/tracked-apps';
     var response = await http.post(url,
         body: user,

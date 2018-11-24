@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/models/user.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 typedef void LoginCallback();
 
@@ -14,28 +12,30 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.only(left: 30.0, right: 30.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(bottom: 10.0),
-                
-                child: Column(children: <Widget> [
+      body: ListView(children: <Widget>[ 
+        Center(
+          child: Container(
+            padding: EdgeInsets.only(left: 30.0, right: 30.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(bottom: 20.0),
-                  child: Image.asset("assets/logo.png", width: 200, height: 200,),),
-                Text("FitLocker", style: TextStyle(
-                  fontSize: 40.0
-                )),])
-              ),
-              LoginForm(this.callback)
-            ],
-          ),
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  
+                  child: Column(children: <Widget> [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: Image.asset("assets/logo.png", width: 200, height: 200,),),
+                  Text("FitLocker", style: TextStyle(
+                    fontSize: 40.0
+                  )),])
+                ),
+                LoginForm(this.callback)
+              ],
+            ),
+          )
         )
-      )
+      ],)
     );
   }
 }
