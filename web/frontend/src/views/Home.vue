@@ -10,20 +10,28 @@
           <v-container fill-height fluid>
             <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
-                <span class="headline">Mobile App</span>
+                <span class="headline black--text">Mobile App</span>
               </v-flex>
             </v-layout>
           </v-container>
         </v-img>
         <v-card-title>
           <div>
-            <span class="grey--text">FitLocker</span><br>
-            <span>Mobile app fro FitLocker</span>
+            <span class="orange--text title">FitLocker</span><br>
+            <span class="subheading">Mobile app for FitLocker</span>
           </div>
         </v-card-title>
+        <!-- 
         <v-card-actions>
-          <v-btn flat color="orange" href="https://play.google.com/store">Check this out</v-btn>
+        <v-btn
+            flat
+            color="orange"
+            href="https://play.google.com/store"
+          >
+          Check this out
+          </v-btn>
         </v-card-actions>
+       -->
       </v-card>
     </v-flex>
   </v-layout>
