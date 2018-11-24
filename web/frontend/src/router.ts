@@ -27,6 +27,11 @@ export default new Router({
       path: '/dashboard/dash',
       name: 'dash',
       component: () => import('./views/dashboard/dash.vue')
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('./views/settings.vue')
     }
   ],
 });
