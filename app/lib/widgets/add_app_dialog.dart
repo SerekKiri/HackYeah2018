@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fitlocker/screens/screens.dart';
+import 'package:fitlocker/models/local_app.dart';
 
 typedef void AddAppCallback(LocalApp app, int cost);
 
