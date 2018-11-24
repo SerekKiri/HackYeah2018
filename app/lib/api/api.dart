@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class Api {
 
-  Future<Map> loginUser(Map data) async {
+  Future loginUser(Map data) async {
     await supaPrefs.init();
     var user = json.encode(data);
     var url = 'http://fitlocker.eu.ngrok.io/api/auth/login';
@@ -24,7 +24,7 @@ class Api {
     if (json.decode(isConnected.body)["connected"] == false) {
       var redirectUrl = await http.get("http://fitlocker.eu.ngrok.io/api/fit/google/connect", 
       headers: {"Authorization" : "Bearer $token"});
-      _launchUrl(json.decode(redirectUrl.body)["redirectUrl"]);
+      await _launchUrl(json.decode(redirectUrl.body)["redirectUrl"]);
     } 
   }
 
