@@ -88,15 +88,15 @@ class AllowanceScreen extends StatelessWidget {
               if (model._isLoading) {
                 return Center(child: CircularProgressIndicator());
               } else {
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(10.0),
-                    itemBuilder: (context, i) {
-                      if (i.isOdd) return Divider();
-                      final index = i ~/ 2;
-                      return _buildApp(index, model);
-                    },
-                    itemCount: model.remoteApps.length * 2
-                  );
+                return ListView.builder(
+                  padding: const EdgeInsets.all(10.0),
+                  itemBuilder: (context, i) {
+                    if (i.isOdd) return Divider();
+                    final index = i ~/ 2;
+                    return _buildApp(index, model);
+                  },
+                  itemCount: model.remoteApps.length * 2
+                );
               }
             },
           )
@@ -114,8 +114,7 @@ class AllowanceScreen extends StatelessWidget {
             Expanded(
               child: Text(model.remoteApps[index].friendlyName, style: TextStyle(fontSize: 16.0))
             ),
-Text(model.remoteApps[index].costPerMinute.toString(), style: TextStyle(fontSize: 16.0))
-
+            Text(model.remoteApps[index].costPerMinute.toString(), style: TextStyle(fontSize: 16.0))
           ],
         )
       )
