@@ -23,7 +23,7 @@ export class Session {
   @ApiModelProperty({ example: 'Afu/rW7ZN4eu18h+F1T1e7WMTcrfLhrOIIeGTwz799s=' })
   token: string;
 
-  @ManyToOne(type => User)
+  @ManyToOne(type => User, { eager: true })
   @ApiModelProperty()
   user: User;
 
