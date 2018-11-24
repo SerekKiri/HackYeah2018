@@ -1,10 +1,11 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fitlocker/utils/';
+import 'package:fitlocker/utils/utils.dart';
+
 class Api {
-  final prefs = supaPrefs;
-  final token = prefs.
+  final prefs = supaPrefs.getPrefs();
+
   Future<Map> loginUser(Map data) async {
     var user = json.encode(data);
     var url = 'http://fitlocker.eu.ngrok.io/api/auth/login';
