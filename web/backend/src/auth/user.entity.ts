@@ -40,4 +40,8 @@ export class User {
   @Exclude({ toClassOnly: true })
   @ApiModelProperty({ format: 'date-time', type: 'string' })
   updatedAt: Date;
+
+  @Exclude()
+  @Column({ type: 'text', default: '' })
+  googleTokens: string;
 }

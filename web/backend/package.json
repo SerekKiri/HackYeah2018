@@ -28,6 +28,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
+    "googleapis": "^35.0.0",
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
