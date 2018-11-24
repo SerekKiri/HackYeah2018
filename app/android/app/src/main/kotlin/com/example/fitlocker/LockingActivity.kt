@@ -23,7 +23,9 @@ class LockingActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mainscreen)
+        val milis = System.currentTimeMillis() / 1000
         prefs.edit().putString("flutter.currentlyLocking", lockPkgName).commit()
+        prefs.edit().putString("flutter.$packageName.lastLockTimestamp", milis.toString()).commit()
 
         val flutterFragment = Flutter.createFragment(lockPkgName)
         supportFragmentManager.beginTransaction().replace(R.id.content_view, flutterFragment).commit()
