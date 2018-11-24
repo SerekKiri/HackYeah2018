@@ -2,29 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'dart:ui';
+import 'dart:async';
 import 'package:fitlocker/lockingscreen.dart';
+import 'package:fitlocker/widgets/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'supaprefs.dart';
 
 void main() => runApp(MyApp());
 void lockingscreen() => runApp(LockingScreen(packageName: window.defaultRouteName));
 const platform = const MethodChannel('feelfreelinux.github.io/fitlocker');
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FitLocker',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: AppList(),
@@ -32,40 +25,96 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class App extends Comparable {
+  String name;
+  String packageName;
+
+  App(this.name, this.packageName);
+
+  @override
+    int compareTo(other) {
+      // TODO: implement compareTo
+      if (other.name == null || this.name == null) {
+        return 0;
+      }
+      return this.name.compareTo(other.name);
+    }
+}
 
 class AppList extends StatelessWidget {
+  Future<dynamic> getAppList () async {
+    await supaPrefs.init();
+    final apps = await platform.invokeMethod('queryPackages');
+    final unsortedApps = apps
+      .map((app) {
+        print(app);
+        return App(app.split(';')[0], app.split(';')[1]);
+      })
+      .toList();
+    unsortedApps.sort();
+    return unsortedApps;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text('FitLocker'),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: FutureBuilder(
-          future: platform.invokeMethod('queryPackages'),
-          builder: (context, result) {
-            if (result.hasData) {
-              return ListView.builder(
-                itemCount: result.data.length,
-                itemBuilder: (context, index) {
-                  return Text(result.data[index]);
-                },
-              );
+          future: getAppList(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none: return Center(child: Text('Waiting to start'));
+              case ConnectionState.waiting: return Center(child: CircularProgressIndicator());
+              default:
+                if (snapshot.hasError) return Center(child: Text('Error: ${snapshot.error}'));
+                return ListView.builder(
+                  padding: const EdgeInsets.all(10.0),
+                  itemBuilder: (context, i) {
+                    if (i.isOdd) return Divider();
+                    final index = i ~/ 2;
+                    return SingleAppWidget(app: snapshot.data[index]);
+                  },
+                  itemCount: snapshot.data.length * 2
+                );
             }
-            return Text('wololo');
           },
         )
-    )
+      )
+    );
+  }
+}
+
+class SingleAppWidget extends StatelessWidget {
+  const SingleAppWidget({
+    Key key,
+    @required App this.app,
+  }) : super(key: key);
+
+  final App app;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          children:<Widget>[
+            Expanded(
+              child: Text(app.name, style: TextStyle(fontSize: 16.0))
+            ),
+            Switch(
+              value: false,
+              onChanged: (bool value) {
+                print('dupa');
+                supaPrefs.getPrefs().setBool(app.packageName, value);
+              },
+            ),
+          ],
+        )
+      )
     );
   }
 }
