@@ -22,6 +22,11 @@ export default new Router({
       path: '/auth/register',
       name: 'register',
       component: () => import('./views/auth/Register.vue')
+    },
+    {
+      path: '/dashboard/dash',
+      name: 'dash',
+      component: () => import('./views/dashboard/dash.vue')
     }
   ],
 });

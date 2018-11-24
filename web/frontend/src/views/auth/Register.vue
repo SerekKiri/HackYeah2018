@@ -42,7 +42,7 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="black" v-on:click="register()" outline>Register</v-btn>
+                            <v-btn color="black" v-on:click="register()" outline to="/dashboard/dash">Register</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-flex>
