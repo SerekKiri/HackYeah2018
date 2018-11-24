@@ -82,14 +82,14 @@ class _MainScreenState extends State<MainScreen> {
                 color: Color(_currentIndex == 0 ? 0xff3c84c1 : 0xff666666),
               ),
               IconButton(
-                icon: Icon(Icons.shop),
+                icon: Icon(Icons.home),
                 onPressed: () => this.setState(() { this._currentIndex = 1; }),
                 color: Color(_currentIndex == 1 ? 0xff3c84c1 : 0xff666666),
               ),
               IconButton(
-                icon: Icon(Icons.home),
+                icon: Icon(Icons.shop),
                 onPressed: () => this.setState(() { this._currentIndex = 2; }),
-                color: Color(_currentIndex == 1 ? 0xff3c84c1 : 0xff666666),
+                color: Color(_currentIndex == 2 ? 0xff3c84c1 : 0xff666666),
               ),
             ],
           ),
