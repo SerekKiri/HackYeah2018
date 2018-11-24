@@ -28,7 +28,7 @@ export class OauthClientService {
     oauth2Client.setCredentials(JSON.parse(user.googleTokens));
     oauth2Client.on('tokens', async tokens => {
       if (tokens.refresh_token) {
-        console.log('RECIEVED NEW GOOGLE TOKENS');
+        console.log('RECEIVED NEW GOOGLE TOKENS');
         user.googleTokens = JSON.stringify(tokens);
         await this.userRepository.save(user);
       }
