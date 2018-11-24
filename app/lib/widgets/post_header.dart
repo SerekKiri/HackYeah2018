@@ -17,16 +17,28 @@ class PostHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Container(
-        
+      padding: EdgeInsets.only(top: 30.0),
+      child: Column(children: <Widget>[
+        Container(
+        width: 120,
+        height: 120,
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.green, width: 20)),
+          shape: BoxShape.circle,
+          border: Border.all(
+            width: 10,
+            color: Colors.greenAccent[400]
+          )
+        ),
         child: Container(
-          child: Center(child: Text('DUPA', style: TextStyle(fontSize: 32.0),)),
-          height: 150, width: 150,),
+          width: 120,
+          height: 120,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Center(child: Text("dupa dupa"),),
+        ),
       ),
+      ],)       
     );
   }
 }

@@ -22,9 +22,14 @@ class LoginScreen extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
-                child: Text("FitLocker", style: TextStyle(
+                
+                child: Column(children: <Widget> [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: Image.asset("assets/logo.png", width: 200, height: 200,),),
+                Text("FitLocker", style: TextStyle(
                   fontSize: 40.0
-                )),
+                )),])
               ),
               LoginForm(this.callback)
             ],
