@@ -43,7 +43,12 @@
 
         </v-card-text>
         <v-card-actions>
-          <v-btn flat color="orange">Check History</v-btn>
+          <v-btn 
+            flat
+            color="orange"
+            to="/history"
+          >
+          Check History</v-btn>
         </v-card-actions>
       </v-card> 
     </v-flex>
