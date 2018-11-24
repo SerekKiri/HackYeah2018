@@ -48,12 +48,11 @@ export default class LoginPage extends Vue {
     email: string;
     password: string;
     post() {
-        axios.post("/auth/login"); {
+        axios.post("/auth/login", {
             body:  {
-                "email": "ddd@smrootmail.dd"
-                "password": "filiper123"
+                "email": this.email
             }
-        }
+        })
         .then(reponse => {})
         .catch(e => this.error.push(e))
     }
