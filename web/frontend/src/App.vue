@@ -8,6 +8,13 @@
       <v-spacer></v-spacer>
       <v-btn
         flat
+        to="/auth/register"
+      >
+        <span class="mr-2">Register</span>
+        <v-icon>mdi-account-circle</v-icon>
+      </v-btn>
+      <v-btn
+        flat
         to="/auth/login"
       >
         <span class="mr-2">Log in</span>
