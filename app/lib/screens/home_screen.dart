@@ -3,7 +3,6 @@ import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/models/app.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:fitlocker/widgets/widgets.dart';
-import 'package:fitlocker/model.dart';
 
 class HomeScreenModel extends Model {
   List<App> remoteApps = [];
