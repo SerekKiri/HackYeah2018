@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/dart,swift,xcode,android,intellij,cocoapods,objective-c,androidstudio
 
+.flutter-plugins
+
 ### Android ###
 # Built application files
 *.apk
