@@ -15,36 +15,20 @@
 ### For mobile app you need:
     - flutter
 ### Running application:
-    
+```
+- cd app
+```
 ```
 - flutter packages get
 ```
 
     
 ```
-- flutter run
+- flutter run --release
 ```
 
 
 ***Remember to turn on USB Debugging on your mobile phone***
-
-## 📱 Website
-### For website you need:
-    - node.js
-    - npm
-### Running site
-
-```
-- npm install
-```
-*Development mode*
-```
-- npm run serve
-```
-*Production mode*
-```
-- npm run build
-```
 
 ## :building_construction: Backend
 ### For backend you need:
