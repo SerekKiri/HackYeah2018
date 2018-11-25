@@ -74,7 +74,7 @@ class ActivitiesScreen extends StatelessWidget {
                           children: <Widget>[
                             Text(
                                 model.activitites[index].points.toString() +
-                                    " points recieved",
+                                    " points received",
                                 style:
                                     TextStyle(fontSize: 12, color: Colors.grey))
                           ],
