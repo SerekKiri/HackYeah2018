@@ -66,6 +66,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
     implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+    implementation 'com.github.kittinunf.fuel:fuel:1.16.0'
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.16.0'
+
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
