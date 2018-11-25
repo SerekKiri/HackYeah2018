@@ -52,7 +52,7 @@ class AllowanceScreen extends StatelessWidget {
                       return Center(child: CircularProgressIndicator());
                     } else {
                       return ListView.builder(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.only(top: 10, bottom: 10, right: 10),
                           itemBuilder: (context, i) {
                             if (i.isOdd) return Divider();
                             final index = i ~/ 2;
@@ -67,9 +67,10 @@ class AllowanceScreen extends StatelessWidget {
   Widget _buildApp(int index, AppListModel model) {
     return ListTile(
         title: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.only(left: 0, right: 8, top: 8, bottom: 8),
             child: Row(
               children: <Widget>[
+                iconForId(model.remoteApps[index].appIndentifier),
                 Expanded(
                     child: Text(model.remoteApps[index].friendlyName,
                         style: TextStyle(fontSize: 16.0))),
@@ -78,4 +79,19 @@ class AllowanceScreen extends StatelessWidget {
               ],
             )));
   }
+
+   Widget iconForId(String pkgName) {
+    var ddd = model.localApps.toList().firstWhere((e) {
+      return e.packageName == pkgName;
+    }, orElse: () => null);
+    if (ddd != null) {
+      return Container(
+                  width: 50.0,
+                  height: 50.0,
+                  padding: EdgeInsets.only(right: 10.0),
+                  child:ddd.icon);
+    } else
+    return Container();
+  }
+
 }

@@ -10,7 +10,7 @@ class PostHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 40.0),
+        padding: EdgeInsets.only(top: 15.0),
         child: ScopedModel<PointsModel>(
           model: model,
           child: Column(

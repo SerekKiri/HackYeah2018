@@ -19,6 +19,9 @@ class NewHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("FitLocker"),
+      ),
         body: ListView(children: [
       ScopedModel<AppModel>(
           model: model,
