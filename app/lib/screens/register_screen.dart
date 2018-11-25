@@ -1,3 +1,4 @@
+import 'package:fitlocker/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/models/user.dart';
@@ -43,6 +44,9 @@ class RegisterForm extends StatelessWidget {
   final _loginFormKey = GlobalKey<FormState>();
   User userToRegister = new User();
   RegisterForm();
+  static GlobalKey<FormState> emailKey = new GlobalKey<FormState>();
+  static GlobalKey<FormState> displayNameKey = new GlobalKey<FormState>();
+  static GlobalKey<FormState> passwordKey = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -54,18 +58,21 @@ class RegisterForm extends StatelessWidget {
           Padding(
               padding: EdgeInsets.only(bottom: 5.0),
               child: TextFormField(
+                key: emailKey,
                 decoration: InputDecoration(hintText: "Email"),
                 onSaved: (email) => userToRegister.email = email,
               )),
           Padding(
             padding: EdgeInsets.only(bottom: 5.0),
             child: TextFormField(
+              key: displayNameKey,
               decoration: InputDecoration(hintText: "Display name"),
               onSaved: (displayName) =>
                   userToRegister.displayName = displayName,
             ),
           ),
           TextFormField(
+            key: passwordKey,
             decoration: InputDecoration(hintText: "Password"),
             obscureText: true,
             onSaved: (password) => userToRegister.password = password,
@@ -80,11 +87,59 @@ class RegisterForm extends StatelessWidget {
                     "password": userToRegister.password,
                     "displayName": userToRegister.displayName
                   });
-                  await api.registerUser(data);
+                  if (await api.registerUser(data)) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // return object of type Dialog
+                        return AlertDialog(
+                          title: new Text("Success!"),
+                          content: new Text("You may now login!"),
+                          actions: <Widget>[
+                            // usually buttons at the bottom of the dialog
+                            new FlatButton(
+                              child: new Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // return object of type Dialog
+                        return AlertDialog(
+                          title: new Text("Error!"),
+                          content: new Text(
+                              "Please check if your email is correct and unique! Additionally the password must be at least 6 characters long."),
+                          actions: <Widget>[
+                            // usually buttons at the bottom of the dialog
+                            new FlatButton(
+                              child: new Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 child: Text("Register", style: TextStyle(color: Colors.white)),
                 color: Theme.of(context).accentColor,
-              ))
+              )),
+          FlatButton(
+            child: Text("Log in"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
         ],
       ),
     );

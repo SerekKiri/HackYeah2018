@@ -77,8 +77,30 @@ class LoginForm extends StatelessWidget {
                     "password": userToLogIn.password
                   });
                   print(data);
-                  await api.loginUser(data);
-                  callback();
+                  if (!(await api.loginUser(data))) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // return object of type Dialog
+                        return AlertDialog(
+                          title: new Text("Error!"),
+                          content: new Text(
+                              "Invalid username or password or your internet sucks."),
+                          actions: <Widget>[
+                            // usually buttons at the bottom of the dialog
+                            new FlatButton(
+                              child: new Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    callback();
+                  }
                 },
                 child: Text("Log in", style: TextStyle(color: Colors.white)),
                 color: Theme.of(context).accentColor,

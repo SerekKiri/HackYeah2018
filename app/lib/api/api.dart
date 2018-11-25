@@ -18,6 +18,9 @@ class Api {
     var url = '$host/auth/login';
     var response = await http.post(url,
         body: user, headers: Map.from({"Content-Type": "application/json"}));
+    if (response.statusCode != 200) {
+      return false;
+    }
     var decoded = json.decode(response.body);
     var token = decoded["token"];
     var prefs = supaPrefs.getPrefs();
@@ -32,13 +35,14 @@ class Api {
           await http.get('$host/fit/google/connect', headers: getHeaders);
       await _launchUrl(json.decode(redirectUrl.body)["redirectUrl"]);
     }
+    return true;
   }
 
   registerUser(Map data) async {
     var response = await http.post('$host/auth/users',
         body: json.encode(data),
         headers: Map.from({"Content-Type": "application/json"}));
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return true;
     } else {
       return false;
@@ -62,6 +66,10 @@ class Api {
     var response = await http.post('$host/fit/tracked-apps/$appId/redeem',
         body: json.encode(Map.from({"minutes": minutes})),
         headers: postHeaders);
+    if (response.statusCode != 200) {
+      return json.decode(response.body)["message"];
+    }
+    print(response.body);
   }
 
   _launchUrl(String url) async {
@@ -75,25 +83,24 @@ class Api {
     var response =
         await http.get('$host/fit/tracked-apps', headers: getHeaders);
 
-    return (List.from(json.decode(response.body)).map((item) => App.fromJson(item))).toList();
+    return (List.from(json.decode(response.body))
+            .map((item) => App.fromJson(item)))
+        .toList();
   }
 
   Future convertActivity(Activity activity) async {
     await ensureToken();
-    var response = await http.post(
-      '$host/fit/google/convert',
-      body: json.encode(activity.toJson()),
-      headers: getHeaders
-    );
+    var response = await http.post('$host/fit/google/convert',
+        body: json.encode(activity.toJson()), headers: getHeaders);
   }
 
   Future<List<Activity>> getConvertableActivities() async {
     await ensureToken();
-    var response = await http.get(
-      '$host/fit/google/convertable-calories',
-      headers: getHeaders
-    );
-    return List.from(json.decode(response.body)).map((item) => Activity.fromJson(item)).toList();
+    var response = await http.get('$host/fit/google/convertable-calories',
+        headers: getHeaders);
+    return List.from(json.decode(response.body))
+        .map((item) => Activity.fromJson(item))
+        .toList();
   }
 
   ensureToken() async {
