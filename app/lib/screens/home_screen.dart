@@ -13,8 +13,9 @@ class HomeScreenModel extends Model {
     this.remoteApps = await api.fetchApps();
     notifyListeners();
   }
+
   Future load() async {
-        //await api.fetchApps();
+    //await api.fetchApps();
     //this.storagedApps = await getAppList();
     //this._isLoading = false;
     //notifyListeners();
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+        body: Container(
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -40,7 +41,6 @@ class HomeScreen extends StatelessWidget {
             _createActivityCard(context),
             _createReedemCard(context),
           ],
-
         ),
       ),
     ));
@@ -50,11 +50,9 @@ class HomeScreen extends StatelessWidget {
     return new PostHeaderWidget();
   }
 
-
   Widget _createActivityCard(BuildContext context) {
     return new ActivityCardWidget();
   }
-
 
   Widget _createReedemCard(BuildContext context) {
     return new ApplicationsCard();

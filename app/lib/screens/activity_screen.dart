@@ -13,7 +13,6 @@ import 'package:fitlocker/models/activity.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ActivitiesScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,21 +23,21 @@ class ActivitiesScreen extends StatelessWidget {
             model: model,
             child: Scaffold(
                 body: Center(child: ScopedModelDescendant<ActivityModel>(
-                  builder: (context, child, model) {
-                    if (model.activitiesLoading) {
-                      return Center(child: CircularProgressIndicator());
-                    } else {
-                      return ListView.builder(
-                          padding: const EdgeInsets.all(10.0),
-                          itemBuilder: (context, i) {
-                            if (i.isOdd) return Divider();
-                            final index = i ~/ 2;
-                            return _buildActivity(index);
-                          },
-                          itemCount: model.activitites.length * 2);
-                    }
-                  },
-                )))));
+              builder: (context, child, model) {
+                if (model.activitiesLoading) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return ListView.builder(
+                      padding: const EdgeInsets.all(10.0),
+                      itemBuilder: (context, i) {
+                        if (i.isOdd) return Divider();
+                        final index = i ~/ 2;
+                        return _buildActivity(index);
+                      },
+                      itemCount: model.activitites.length * 2);
+                }
+              },
+            )))));
   }
 
   Widget _buildActivity(int index) {

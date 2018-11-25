@@ -7,8 +7,7 @@ void showSimpleAlert(BuildContext context, String title, String text) {
       // return object of type Dialog
       return AlertDialog(
         title: new Text(title),
-        content: new Text(
-            text),
+        content: new Text(text),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(

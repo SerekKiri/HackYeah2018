@@ -12,8 +12,6 @@ import 'package:fitlocker/model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AllowanceScreen extends StatelessWidget {
-
-
   void _showDialog(BuildContext context) {
     // flutter defined function
     showDialog(
@@ -22,10 +20,12 @@ class AllowanceScreen extends StatelessWidget {
         // return object of type Dialog
         return AlertDialog(
           title: new Text('Add new app to track'),
-          content: new AddAppDialog(callback: (app, cost) {
-            model.addApp(app, cost);
-            Navigator.of(context).pop();
-          }, apps: model.localApps),
+          content: new AddAppDialog(
+              callback: (app, cost) {
+                model.addApp(app, cost);
+                Navigator.of(context).pop();
+              },
+              apps: model.localApps),
         );
       },
     );

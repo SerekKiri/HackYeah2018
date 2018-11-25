@@ -10,30 +10,31 @@ import 'package:fitlocker/widgets/widgets.dart';
 import 'package:fitlocker/model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-
 class NewHomeScreen extends StatelessWidget {
   NewHomeScreen() {
     model.loadApps();
     model.loadActivities();
+        model.fetcherPointer();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-          children: [ScopedModel<AppModel>(
-            model: model,
-            child: Container(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    _createPointsHeader(context),
-                    _createActivityCard(context),
-                    _createReedemCard(context),
-                  ],
-                ),
+        body: ListView(children: [
+      ScopedModel<AppModel>(
+          model: model,
+          child: Container(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  _createPointsHeader(context),
+                  _createActivityCard(context),
+                  _createReedemCard(context),
+                ],
               ),
-            ))]));
+            ),
+          ))
+    ]));
   }
 
   Widget _createPointsHeader(BuildContext context) {

@@ -88,6 +88,14 @@ class Api {
         .toList();
   }
 
+  Future<int> fetchPoints() async {
+    await ensureToken();
+    var response =
+        await http.get('$host/auth/current-session', headers: getHeaders);
+
+    return json.decode(response.body)["user"]["points"];
+  }
+
   Future convertActivity(Activity activity) async {
     await ensureToken();
     var response = await http.post('$host/fit/google/convert',

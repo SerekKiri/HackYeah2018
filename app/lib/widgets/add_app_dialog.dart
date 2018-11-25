@@ -24,7 +24,7 @@ class _AddAppDialogState extends State<AddAppDialog> {
         items: widget.apps.map((LocalApp value) {
           return new DropdownMenuItem<LocalApp>(
             value: value,
-            child: Row(children: [ value.icon, Text(value.name) ] ),
+            child: Row(children: [value.icon, Text(value.name)]),
           );
         }).toList(),
         onChanged: (index) {
@@ -33,14 +33,18 @@ class _AddAppDialogState extends State<AddAppDialog> {
           });
         },
       ),
-      TextField(decoration: InputDecoration(
-        hintText: 'Cost of a minute using the app'
-      ), keyboardType: TextInputType.number, onChanged: (val) {
-        cost = int.parse(val);
-      }),
-      FlatButton(onPressed: () {
-        widget.callback(this.selectedApp, this.cost);
-      }, child: Text('Add app')),
+      TextField(
+          decoration:
+              InputDecoration(hintText: 'Cost of a minute using the app'),
+          keyboardType: TextInputType.number,
+          onChanged: (val) {
+            cost = int.parse(val);
+          }),
+      FlatButton(
+          onPressed: () {
+            widget.callback(this.selectedApp, this.cost);
+          },
+          child: Text('Add app')),
     ]);
   }
 }
