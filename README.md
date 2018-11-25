@@ -46,7 +46,7 @@
 - npm run build
 ```
 
-## Backend
+## :building_construction: Backend
 ### For backend you need:
     - docker
     - docker compose
