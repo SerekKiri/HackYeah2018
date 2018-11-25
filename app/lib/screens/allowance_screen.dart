@@ -35,7 +35,13 @@ class AllowanceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('FitLocker'),
+          titleSpacing: 0.0,
+          elevation: 1.5,
+          centerTitle: true,
+          title: Text('Manage locked apps', style: TextStyle(
+            color: Colors.black
+          ),),
+          backgroundColor: Colors.white,
         ),
         body: ScopedModel<AppListModel>(
             model: model,

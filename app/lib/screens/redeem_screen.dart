@@ -30,7 +30,13 @@ class RedeemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('FitLocker'),
+          title: Text('Redeem points', style: TextStyle(
+            color: Colors.black
+          ),),
+          backgroundColor: Colors.white,
+          elevation: 1.5,
+          titleSpacing: 0,
+          centerTitle: true,
         ),
         body: ScopedModel<AppCardsModel>(
             model: this.model,

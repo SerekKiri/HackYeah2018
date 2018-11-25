@@ -14,7 +14,13 @@ class NewHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("FitLocker"),
+          titleSpacing: 0,
+          centerTitle: true,
+          title: Text("Home", style: TextStyle(
+            color: Colors.black
+          ),),
+          backgroundColor: Colors.white,
+          elevation: 1.5,
         ),
         body: ListView(children: [
           ScopedModel<AppModel>(
