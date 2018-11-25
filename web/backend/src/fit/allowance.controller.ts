@@ -61,7 +61,7 @@ export class AllowanceController {
         },
       },
     });
-    if (!allowance) {
+    if (!allowance || allowance.minutesLeft <= 0) {
       return {
         allow: false,
         track: false,
