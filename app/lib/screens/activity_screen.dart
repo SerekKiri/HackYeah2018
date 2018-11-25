@@ -18,6 +18,15 @@ class ActivitiesScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('FitLocker'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.refresh),
+              tooltip: 'Refresh',
+              onPressed: () {
+                model.loadActivities();
+              },
+            ),
+          ],
         ),
         body: ScopedModel<ActivityModel>(
             model: model,
@@ -28,21 +37,16 @@ class ActivitiesScreen extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 } else {
                   return ListView.builder(
-                    padding: const EdgeInsets.all(10.0),
-                    itemBuilder: (context, i) {
-                      if (i.isOdd) return Divider();
-                      final index = i ~/ 2;
-                      return ActivityListTile(index);
-                    },
-                    itemCount: model.activitites.length * 2
-                  );
+                      padding: const EdgeInsets.all(10.0),
+                      itemBuilder: (context, i) {
+                        if (i.isOdd) return Divider();
+                        final index = i ~/ 2;
+                        return ActivityListTile(index);
+                      },
+                      itemCount: model.activitites.length * 2);
                 }
               },
-            )
-          )
-        )
-      )
-    );
+            )))));
   }
 }
 
@@ -54,36 +58,36 @@ class ActivityListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Padding(
-        padding: EdgeInsets.fromLTRB(0.2, 0.8, 0.2, 0.8),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(model.activitites[index].name, style: TextStyle(fontSize: 16.0)),
-                  Text(" ", style: TextStyle(fontSize: 4),), // lololo spacing
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        model.activitites[index].niceDuration() + " ",
-                        style: TextStyle(fontSize: 12.0, color: Colors.grey)
-                      ),
-                      Text(
-                        model.activitites[index].calories.toString() + " kcal",
-                        style: TextStyle(fontSize: 12.0)
-                      )
-                    ],
-                  )
-                ],
-              )
-            ),
-            GetPointsButton(index)
-          ],
-        )
-      )
-    );
+        title: Padding(
+            padding: EdgeInsets.fromLTRB(0.2, 0.8, 0.2, 0.8),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(model.activitites[index].name,
+                        style: TextStyle(fontSize: 16.0)),
+                    Text(
+                      " ",
+                      style: TextStyle(fontSize: 4),
+                    ), // lololo spacing
+                    Row(
+                      children: <Widget>[
+                        Text(model.activitites[index].niceDuration() + " ",
+                            style:
+                                TextStyle(fontSize: 12.0, color: Colors.grey)),
+                        Text(
+                            model.activitites[index].calories.toString() +
+                                " kcal",
+                            style: TextStyle(fontSize: 12.0))
+                      ],
+                    )
+                  ],
+                )),
+                GetPointsButton(index)
+              ],
+            )));
   }
 }
 
@@ -101,13 +105,13 @@ class _GetPointsButtonState extends State<GetPointsButton> {
 
   int index;
 
-  setLoading (loading) {
+  setLoading(loading) {
     setState(() {
       this.loading = loading;
     });
   }
 
-  confirmConvert () {
+  confirmConvert() {
     setState(() {
       this.alreadyConverted = true;
     });
@@ -125,26 +129,23 @@ class _GetPointsButtonState extends State<GetPointsButton> {
     }
     if (alreadyConverted) {
       return Container(
-        width: 110,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-                model.activitites[index].points.toString() +
-                    " points received",
-                style:
-                    TextStyle(fontSize: 12, color: Colors.grey))
-          ],
-        )
-      );
+          width: 110,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                  model.activitites[index].points.toString() +
+                      " points received",
+                  style: TextStyle(fontSize: 12, color: Colors.grey))
+            ],
+          ));
     }
     return Container(
       width: 125,
       child: RaisedButton(
         color: Colors.amber,
-        child: Text("Get " +
-            model.activitites[index].points.toString() +
-            " points"),
+        child: Text(
+            "Get " + model.activitites[index].points.toString() + " points"),
         onPressed: () async {
           setLoading(true);
           await api.convertActivity(model.activitites[index]);
