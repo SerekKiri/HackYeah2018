@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fitlocker/screens/screens.dart';
 import 'widgets.dart';
+import 'package:fitlocker/model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ActivityCardWidget extends StatelessWidget {
   const ActivityCardWidget({
@@ -16,11 +18,28 @@ class ActivityCardWidget extends StatelessWidget {
             elevation: 0,
             child: Column(
               children: <Widget>[
-                ActivityListTile(0),
-                Divider(),
-                ActivityListTile(1),
-                Divider(),
-                ActivityListTile(2),
+                ScopedModel<ActivityModel>(
+                  model: model,
+                  child: ScopedModelDescendant<ActivityModel>(
+                    builder: (context, child, model5) {
+                      var items = 3;
+                      if (model5.activitites.length < items) {
+                        items = model5.activitites.length;
+                      }
+                      return ListView.builder(
+                        physics: ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(10.0),
+                        itemBuilder: (context, i) {
+                          if (i.isOdd) return Divider();
+                          final index = i ~/ 2;
+                          return ActivityListTile(index);
+                        },
+                        itemCount: items * 2
+                      );
+                    },
+                  )
+                ),
                 Divider(),
                 FlatButton(
                   child: Text('More'),
