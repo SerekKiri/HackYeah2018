@@ -43,7 +43,7 @@ class Api {
   }
 
   Future addApp(String friendlyName, String packageName, int cost) async {
-    ensureToken();
+    await ensureToken();
     var response = await http.post(
       '$host/fit/tracked-apps',
       body: json.encode(Map.from({
@@ -58,7 +58,7 @@ class Api {
   }
 
   redeemPoints(int appId, int minutes) async {
-    ensureToken();
+    await ensureToken();
     var response = await http.post(
       '$host/fit/tracked-apps/$appId/redeem',
       body: json.encode(Map.from({
@@ -76,7 +76,7 @@ class Api {
   }
 
   Future<List<App>> fetchApps() async {
-    ensureToken();
+    await ensureToken();
     var response = await http.get(
       '$host/fit/tracked-apps',
       headers: getHeaders

@@ -7,9 +7,9 @@ import 'package:fitlocker/utils/utils.dart';
 import 'package:fitlocker/models/app.dart';
 import 'package:fitlocker/screens/screens.dart';
 import 'package:fitlocker/widgets/widgets.dart';
+import 'package:fitlocker/model.dart';
 
-import 'package:scoped_model/scoped_model.dart';
-
+final model = new AppModel();
 class NewHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
