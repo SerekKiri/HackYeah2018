@@ -47,9 +47,16 @@ class ActivitiesScreen extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Expanded(
-                    child: Text(model.activitites[index].name,
-                        style: TextStyle(fontSize: 16.0))),
-                Text(model.activitites[index].calories.toString(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(model.activitites[index].name,
+                        style: TextStyle(fontSize: 16.0)),
+                    Text(model.activitites[index].niceDuration(),
+                        style: TextStyle(fontSize: 12.0, color: Colors.grey))
+                  ],
+                )),
+                Text(model.activitites[index].calories.toString() + " kcal",
                     style: TextStyle(fontSize: 16.0))
               ],
             )));
