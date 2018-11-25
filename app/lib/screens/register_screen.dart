@@ -1,13 +1,9 @@
-import 'package:fitlocker/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/models/user.dart';
 
-typedef void LoginCallback();
-
-class LoginScreen extends StatelessWidget {
-  final LoginCallback callback;
-  LoginScreen(this.callback);
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         Text("FitLocker", style: TextStyle(fontSize: 40.0)),
                       ])),
-                  LoginForm(this.callback)
+                  RegisterForm()
                 ],
               ),
             ))
@@ -43,11 +39,10 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class LoginForm extends StatelessWidget {
+class RegisterForm extends StatelessWidget {
   final _loginFormKey = GlobalKey<FormState>();
-  User userToLogIn = new User();
-  final LoginCallback callback;
-  LoginForm(this.callback);
+  User userToRegister = new User();
+  RegisterForm();
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -60,12 +55,20 @@ class LoginForm extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 5.0),
               child: TextFormField(
                 decoration: InputDecoration(hintText: "Email"),
-                onSaved: (email) => userToLogIn.email = email,
+                onSaved: (email) => userToRegister.email = email,
               )),
+          Padding(
+            padding: EdgeInsets.only(bottom: 5.0),
+            child: TextFormField(
+              decoration: InputDecoration(hintText: "Display name"),
+              onSaved: (displayName) =>
+                  userToRegister.displayName = displayName,
+            ),
+          ),
           TextFormField(
             decoration: InputDecoration(hintText: "Password"),
             obscureText: true,
-            onSaved: (password) => userToLogIn.password = password,
+            onSaved: (password) => userToRegister.password = password,
           ),
           Padding(
               padding: EdgeInsets.only(top: 10.0),
@@ -73,23 +76,15 @@ class LoginForm extends StatelessWidget {
                 onPressed: () async {
                   _loginFormKey.currentState.save();
                   var data = Map.from({
-                    "email": userToLogIn.email,
-                    "password": userToLogIn.password
+                    "email": userToRegister.email,
+                    "password": userToRegister.password,
+                    "displayName": userToRegister.displayName
                   });
-                  print(data);
-                  await api.loginUser(data);
-                  callback();
+                  await api.registerUser(data);
                 },
-                child: Text("Log in", style: TextStyle(color: Colors.white)),
+                child: Text("Register", style: TextStyle(color: Colors.white)),
                 color: Theme.of(context).accentColor,
-              )),
-          FlatButton(
-            child: Text("Register"),
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RegisterScreen()));
-            },
-          )
+              ))
         ],
       ),
     );

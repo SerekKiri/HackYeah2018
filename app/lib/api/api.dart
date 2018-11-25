@@ -34,6 +34,17 @@ class Api {
     }
   }
 
+  registerUser(Map data) async {
+    var response = await http.post('$host/auth/users',
+        body: json.encode(data),
+        headers: Map.from({"Content-Type": "application/json"}));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future addApp(String friendlyName, String packageName, int cost) async {
     await ensureToken();
     var response = await http.post('$host/fit/tracked-apps',
