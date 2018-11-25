@@ -91,7 +91,7 @@ class RedeemScreen extends StatelessWidget {
                           if (result != null) {
                             showSimpleAlert(context, "Error", result);
                           } else {
-                            await model.loadApps();
+                            await model.fetchJustRemoteApps();
                           }
                     }
                   )
