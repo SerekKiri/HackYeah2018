@@ -49,6 +49,7 @@ abstract class PointsModel extends Model {
   int points = 0;
   Future fetcherPointer() async {
     this.points = await api.fetchPoints();
+    notifyListeners();
   }
 }
 

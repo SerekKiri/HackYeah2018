@@ -154,7 +154,7 @@ class _GetPointsButtonState extends State<GetPointsButton> {
           await api.convertActivity(model.activitites[index]);
           setLoading(false);
           confirmConvert();
-          model.fetcherPointer();
+          await model.fetcherPointer();
         },
       ),
     );
