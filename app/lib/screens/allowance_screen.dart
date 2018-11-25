@@ -13,6 +13,10 @@ import 'package:scoped_model/scoped_model.dart';
 
 class AllowanceScreen extends StatelessWidget {
 
+  AllowanceScreen() {
+    model.loadApps();
+  }
+
   void _showDialog(BuildContext context) {
     // flutter defined function
     showDialog(

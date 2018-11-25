@@ -17,6 +17,7 @@ abstract class AppListModel extends Model {
   List<LocalApp> localApps = [];
   bool isLoading = true;
   Future loadApps() async {
+    if (this.remoteApps.isNotEmpty) return;
     this.remoteApps = await api.fetchApps();
     this.remoteApps.forEach((app) {
       supaPrefs.getPrefs().setBool(app.appIndentifier, true);
