@@ -15,7 +15,9 @@ import android.app.AppOpsManager.OPSTR_GET_USAGE_STATS
 import android.content.Context
 import android.content.Context.APP_OPS_SERVICE
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat.getSystemService
 import android.os.Build.VERSION_CODES.KITKAT
 import android.os.Build.VERSION.SDK_INT
@@ -24,6 +26,10 @@ import android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS
 import android.provider.MediaStore.Images.Media.getBitmap
 import android.util.Base64
 import java.io.ByteArrayOutputStream
+import android.opengl.ETC1.getHeight
+import android.opengl.ETC1.getWidth
+
+
 
 
 class MainActivity: FlutterActivity() {
@@ -40,11 +46,13 @@ class MainActivity: FlutterActivity() {
                 val pm = this.packageManager
                 val intent = Intent(Intent.ACTION_MAIN, null)
                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
+
                 val data= pm.queryIntentActivities(intent,
                         PackageManager.PERMISSION_GRANTED).map {
+                    val icon = it.activityInfo.applicationInfo.loadIcon(pm);
                     it.activityInfo.applicationInfo.loadLabel(pm).toString() + ';' +
                     it.activityInfo.applicationInfo.packageName + ';' +
-                    getAppIcon(it.activityInfo.applicationInfo.packageName)
+                    getAppIcon(drawableToBitmap(icon))
                 }
                 Log.v("FitLocker", data[0])
                 result.success(data)
@@ -52,9 +60,28 @@ class MainActivity: FlutterActivity() {
         }
     }
 
-    private fun getAppIcon(packageName: String): String {
-        val icon = this.packageManager.getApplicationIcon(packageName)
-        val bitmap = (icon as BitmapDrawable).bitmap
+    fun drawableToBitmap(drawable: Drawable): Bitmap {
+        var bitmap: Bitmap? = null
+
+        if (drawable is BitmapDrawable) {
+            val bitmapDrawable = drawable as BitmapDrawable
+            if (bitmapDrawable.bitmap != null) {
+                return bitmapDrawable.bitmap
+            }
+        }
+
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888) // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight())
+        drawable.draw(canvas)
+        return bitmap
+    }
+    private fun getAppIcon(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 60, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
