@@ -99,7 +99,7 @@ class Api {
   Future convertActivity(Activity activity) async {
     await ensureToken();
     var response = await http.post('$host/fit/google/convert',
-        body: json.encode(activity.toJson()), headers: getHeaders);
+        body: json.encode(activity.toJson()), headers: postHeaders);
   }
 
   Future<List<Activity>> getConvertableActivities() async {

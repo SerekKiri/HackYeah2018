@@ -86,7 +86,10 @@ class ActivitiesScreen extends StatelessWidget {
                           child: Text("Get " +
                               model.activitites[index].points.toString() +
                               " points"),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await api.convertActivity(model.activitites[index]);
+                            await model.loadActivities();
+                          },
                         ),
                       )
               ],

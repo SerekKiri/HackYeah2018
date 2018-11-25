@@ -7,6 +7,7 @@ class Activity {
   final int startTimeMilis;
   final int endTimeMilis;
   final String conversionHash;
+  final Map<String, dynamic> originalJson;
 
   Activity.fromJson(Map<String, dynamic> json)
       : code = json['activityCode'].toInt(),
@@ -16,19 +17,11 @@ class Activity {
         startTimeMilis = json['startTimeMilis'].toInt(),
         endTimeMilis = json['endTimeMilis'].toInt(),
         alreadyConverted = json['alreadyConverted'],
-        conversionHash = json['conversionHash'];
+        conversionHash = json['conversionHash'],
+        originalJson = json;
 
   Map<String, dynamic> toJson() {
-    return Map.from({
-      code: code,
-      name: name,
-      calories: calories,
-      points: points,
-      alreadyConverted: alreadyConverted,
-      conversionHash: conversionHash,
-      startTimeMilis: startTimeMilis,
-      endTimeMilis: endTimeMilis
-    });
+    return originalJson;
   }
 
   String niceDuration() {

@@ -184,7 +184,7 @@ export default class GoogleApiController {
         'This activity was already converted to points!',
       );
     }
-
+    console.log({ data });
     const act = new ConvertedActivity();
     act.points = data.points;
     act.conversionHash = data.conversionHash;
