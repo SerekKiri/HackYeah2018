@@ -48,16 +48,47 @@ class ActivitiesScreen extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(model.activitites[index].name,
                         style: TextStyle(fontSize: 16.0)),
-                    Text(model.activitites[index].niceDuration(),
-                        style: TextStyle(fontSize: 12.0, color: Colors.grey))
+                    Text(" ", style: TextStyle(fontSize: 4),), // lololo spacing
+                    Row(
+                      children: <Widget>[
+                        Text(model.activitites[index].niceDuration() + " ",
+                            style:
+                                TextStyle(fontSize: 12.0, color: Colors.grey)),
+                        Text(
+                            model.activitites[index].calories.toString() +
+                                " kcal",
+                            style: TextStyle(fontSize: 12.0))
+                      ],
+                    )
                   ],
                 )),
-                Text(model.activitites[index].calories.toString() + " kcal",
-                    style: TextStyle(fontSize: 16.0))
+                model.activitites[index].alreadyConverted
+                    ? Container(
+                        width: 110,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                                model.activitites[index].points.toString() +
+                                    " points recieved",
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey))
+                          ],
+                        ))
+                    : Container(
+                        width: 110,
+                        child: RaisedButton(
+                          color: Colors.amber,
+                          child: Text("Get " +
+                              model.activitites[index].points.toString() +
+                              " points"),
+                          onPressed: () {},
+                        ),
+                      )
               ],
             )));
   }
