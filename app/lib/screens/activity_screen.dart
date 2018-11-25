@@ -43,7 +43,7 @@ class ActivitiesScreen extends StatelessWidget {
   Widget _buildActivity(int index) {
     return ListTile(
         title: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.fromLTRB(0.2, 0.8, 0.2, 0.8),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -66,33 +66,78 @@ class ActivitiesScreen extends StatelessWidget {
                     )
                   ],
                 )),
-                model.activitites[index].alreadyConverted
-                    ? Container(
-                        width: 110,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                                model.activitites[index].points.toString() +
-                                    " points received",
-                                style:
-                                    TextStyle(fontSize: 12, color: Colors.grey))
-                          ],
-                        ))
-                    : Container(
-                        width: 110,
-                        child: RaisedButton(
-                          color: Colors.amber,
-                          child: Text("Get " +
-                              model.activitites[index].points.toString() +
-                              " points"),
-                          onPressed: () async {
-                            await api.convertActivity(model.activitites[index]);
-                            await model.loadActivities();
-                          },
-                        ),
-                      )
+                GetPointsButton(index)
               ],
             )));
+  }
+}
+
+class GetPointsButton extends StatefulWidget {
+  final int index;
+
+  GetPointsButton(this.index);
+
+  _GetPointsButtonState createState() => _GetPointsButtonState(index);
+}
+
+class _GetPointsButtonState extends State<GetPointsButton> {
+  bool loading = false;
+  bool alreadyConverted;
+
+  int index;
+
+  setLoading (loading) {
+    setState(() {
+      this.loading = loading;
+    });
+  }
+
+  confirmConvert () {
+    setState(() {
+      this.alreadyConverted = true;
+    });
+  }
+
+  _GetPointsButtonState(index) {
+    this.index = index;
+    alreadyConverted = model.activitites[index].alreadyConverted;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (loading) {
+      return CircularProgressIndicator();
+    }
+    if (alreadyConverted) {
+      return Container(
+        width: 110,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+                model.activitites[index].points.toString() +
+                    " points received",
+                style:
+                    TextStyle(fontSize: 12, color: Colors.grey))
+          ],
+        )
+      );
+    }
+    return Container(
+      width: 125,
+      child: RaisedButton(
+        color: Colors.amber,
+        child: Text("Get " +
+            model.activitites[index].points.toString() +
+            " points"),
+        onPressed: () async {
+          setLoading(true);
+          await api.convertActivity(model.activitites[index]);
+          setLoading(false);
+          confirmConvert();
+          model.fetcherPointer();
+        },
+      ),
+    );
   }
 }
