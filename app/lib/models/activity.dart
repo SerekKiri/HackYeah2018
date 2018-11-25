@@ -28,7 +28,7 @@ class Activity {
     return DateTime.fromMillisecondsSinceEpoch(startTimeMilis)
             .toLocal()
             .toString()
-            .substring(0, 16) +
+            .substring(5, 16) +
         " - " +
         DateTime.fromMillisecondsSinceEpoch(endTimeMilis)
             .toLocal()
