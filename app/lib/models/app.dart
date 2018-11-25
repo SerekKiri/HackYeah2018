@@ -12,5 +12,5 @@ class App {
         friendlyName = json['friendlyName'],
         appIndentifier = json['appIdentifier'],
         minutesLeft =
-            json["allowance"] == null ? 0 : json["allowance"]["minutesLeft"];
+            json["allowance"] == null ? 0.0 : json["allowance"]["minutesLeft"];
 }
