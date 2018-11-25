@@ -8,7 +8,7 @@ class PostHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 30.0),
+      padding: EdgeInsets.only(top: 40.0),
       child: Column(children: <Widget>[
         Container(
         width: 120,
