@@ -45,7 +45,7 @@ export class User {
   @Column({ type: 'text', default: '' })
   googleTokens: string;
 
-  @Column()
+  @Column({ default: 0 })
   @ApiModelProperty({ example: 33 })
   points: number;
 }

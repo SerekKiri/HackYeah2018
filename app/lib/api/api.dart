@@ -39,7 +39,7 @@ class Api {
     var response = await http.post('$host/auth/users',
         body: json.encode(data),
         headers: Map.from({"Content-Type": "application/json"}));
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return true;
     } else {
       return false;
