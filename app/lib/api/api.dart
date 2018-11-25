@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fitlocker/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fitlocker/models/app.dart';
+import 'package:fitlocker/models/activity.dart';
 
 class Api {
   String token;
@@ -66,23 +67,25 @@ class Api {
     var response =
         await http.get('$host/fit/tracked-apps', headers: getHeaders);
 
-    return (List.from(json.decode(response.body)).map((item) {
-      return App.fromJson(item);
-    }))
-        .toList();
+    return (List.from(json.decode(response.body)).map((item) => App.fromJson(item))).toList();
   }
 
-  Future convertActivity(Map activityObj) async {
+  Future convertActivity(Activity activity) async {
     await ensureToken();
-    var response = await http.post('$host/fit/google/convert',
-        headers: getHeaders, body: json.encode(activityObj));
+    var response = await http.post(
+      '$host/fit/google/convert',
+      body: json.encode(activity.toJson()),
+      headers: getHeaders
+    );
   }
 
-  Future<List<Map>> getConvertableActivities(Map activityObj) async {
+  Future<List<Activity>> getConvertableActivities() async {
     await ensureToken();
-    var response = await http.get('$host/fit/google/convertable-calories',
-        headers: getHeaders);
-    return json.decode(response.body);
+    var response = await http.get(
+      '$host/fit/google/convertable-calories',
+      headers: getHeaders
+    );
+    return List.from(json.decode(response.body)).map((item) => Activity.fromJson(item)).toList();
   }
 
   ensureToken() async {
