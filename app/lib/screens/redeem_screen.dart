@@ -1,3 +1,4 @@
+import 'package:fitlocker/util.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:ui';
@@ -74,7 +75,11 @@ class RedeemScreen extends StatelessWidget {
                     print(id);
                     print('Value:');
                     print(value);
-                    await api.redeemPoints(id, value);
+                    var result = await api.redeemPoints(id, value);
+
+                    if (result != null) {
+                      showSimpleAlert(context, "Error", result);
+                    }
                   }
                 )),
               ]
@@ -91,7 +96,7 @@ Future<int> showPointsChoiceDialog (context) {
     context: context,
     builder: (context) {
       return SimpleDialog(
-        title: const Text('Select assignment'),
+        title: const Text('Select the amount of minutes you want to buy'),
         children: <Widget>[
           SimpleDialogOption(
             onPressed: () { Navigator.pop(context, 5); },

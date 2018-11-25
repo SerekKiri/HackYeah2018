@@ -68,6 +68,9 @@ class Api {
     var response = await http.post('$host/fit/tracked-apps/$appId/redeem',
         body: json.encode(Map.from({"minutes": minutes})),
         headers: postHeaders);
+    if (response.statusCode != 200) {
+      return json.decode(response.body)["message"];
+    }
     print(response.body);
   }
 
