@@ -8,29 +8,29 @@ class NewHomeScreen extends StatelessWidget {
   NewHomeScreen() {
     model.loadApps();
     model.loadActivities();
-        model.fetcherPointer();
+    model.fetcherPointer();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("FitLocker"),
-      ),
+        appBar: AppBar(
+          title: Text("FitLocker"),
+        ),
         body: ListView(children: [
-      ScopedModel<AppModel>(
-          model: model,
-          child: Container(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  PostHeaderWidget(),
-                  ActivityCardWidget(),
-                  ApplicationsCard(),
-                ],
-              ),
-            ),
-          ))
-    ]));
+          ScopedModel<AppModel>(
+              model: model,
+              child: Container(
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      PostHeaderWidget(),
+                      ActivityCardWidget(),
+                      ApplicationsCard(),
+                    ],
+                  ),
+                ),
+              ))
+        ]));
   }
 }
