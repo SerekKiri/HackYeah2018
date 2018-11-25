@@ -15,7 +15,7 @@ class ActivityCardWidget extends StatelessWidget {
           elevation: 0,
         child: Column(
           children: <Widget>[
-            Text('BIEGANKA'),
+            Text('Activites'),
             Row(
               children: <Widget>[
                 Icon(Icons.directions_run, size: 40.0,),

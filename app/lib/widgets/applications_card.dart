@@ -15,23 +15,23 @@ class ApplicationsCard extends StatelessWidget {
           elevation: 0,
         child: Column(
           children: <Widget>[
-            Text('APLIKACJE'),
+            Text('Apps'),
             Row(
               children: <Widget>[
                 Icon(Icons.message, size: 40.0,),
-                Text('FaCEBOOK')
+                Text('Facebook')
               ],
             ),
                         Row(
               children: <Widget>[
                 Icon(Icons.message, size: 40.0,),
-                Text('FaCEBOOK')
+                Text('Facebook')
               ],
             ),
                         Row(
               children: <Widget>[
                 Icon(Icons.message, size: 40.0,),
-                Text('FaCEBOOK')
+                Text('Facebook')
               ],
             )
             
