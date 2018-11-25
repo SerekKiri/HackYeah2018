@@ -13,6 +13,9 @@ import 'package:fitlocker/models/activity.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ActivitiesScreen extends StatelessWidget {
+  ActivitiesScreen() : super() {
+    model.loadActivities();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
