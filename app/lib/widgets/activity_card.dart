@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitlocker/screens/screens.dart';
+import 'widgets.dart';
 
 class ActivityCardWidget extends StatelessWidget {
   const ActivityCardWidget({
@@ -16,26 +17,10 @@ class ActivityCardWidget extends StatelessWidget {
           elevation: 0,
         child: Column(
           children: <Widget>[
-            Text('Activites'),
-            Row(
-              children: <Widget>[
-                Icon(Icons.directions_run, size: 40.0,),
-                Text('BIEGANKO 5 MIN')
-              ],
-            ),
-                        Row(
-              children: <Widget>[
-                Icon(Icons.directions_run, size: 40.0,),
-                Text('BIEGANKO 5 MIN')
-              ],
-            ),
-                        Row(
-              children: <Widget>[
-                Icon(Icons.directions_run, size: 40.0,),
-                Text('BIEGANKO 5 MIN')
-              ],
-            ),
-                        FlatButton(child: Text('More'), onPressed: () {
+            ActivityWidget(index: 1,),
+            ActivityWidget(index: 2,),
+            ActivityWidget(index: 3,),
+            FlatButton(child: Text('More'), onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => ActivitiesScreen()

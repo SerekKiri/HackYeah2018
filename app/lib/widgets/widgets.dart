@@ -4,3 +4,4 @@ export 'post_header.dart';
 export 'applications_card.dart';
 export 'activity_card.dart';
 export 'item.dart';
+export 'activity.dart';
