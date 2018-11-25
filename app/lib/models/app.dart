@@ -4,10 +4,13 @@ class App {
   final String appIndentifier;
   final String friendlyName;
 
+  double minutesLeft;
 
   App.fromJson(Map<String, dynamic> json)
-    : id = json['id'],
-      costPerMinute = json['costPerMinute'],
-      friendlyName = json['friendlyName'],
-      appIndentifier = json['appIdentifier'];
+      : id = json['id'],
+        costPerMinute = json['costPerMinute'],
+        friendlyName = json['friendlyName'],
+        appIndentifier = json['appIdentifier'],
+        minutesLeft =
+            json["allowance"] == null ? 0 : json["allowance"]["minutesLeft"];
 }

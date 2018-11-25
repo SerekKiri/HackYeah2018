@@ -25,12 +25,17 @@ import { AuthGuard } from '@nestjs/passport';
 import { TrackedApp } from './trackedApp.entity';
 import { User } from 'src/auth/user.entity';
 import { Request } from 'express';
-import { plainToClass, plainToClassFromExist } from 'class-transformer';
+import {
+  plainToClass,
+  plainToClassFromExist,
+  classToPlain,
+} from 'class-transformer';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundExceptionFilter } from 'src/core/EntityNotFoundExeptionFilter';
 import { Allowance } from './allowance.entity';
 import { RedeemDto } from './redeem.dto';
+import { GetTrackedAppsDto } from './getTrackedApps.dto';
 
 @Controller('/fit/tracked-apps')
 @UsePipes(ValidationPipe)
@@ -91,7 +96,21 @@ export class TrackedAppsController {
         id: user.id,
       },
     });
-    return trackedApps;
+    const dtos: GetTrackedAppsDto[] = classToPlain(trackedApps) as any;
+    for (const dto of dtos) {
+      dto.allowance = classToPlain(
+        await this.allowanceRepository.findOne({
+          where: {
+            app: {
+              id: dto.id,
+            },
+          },
+        }),
+      ) as any;
+
+      delete dto.allowance.app;
+    }
+    return dtos;
   }
 
   @Post('/:id/redeem')
@@ -105,7 +124,7 @@ export class TrackedAppsController {
   ) {
     const trackedApp = await this.trackedAppRepository.findOneOrFail(id);
     const user: User = (req as any).user.user;
-    const pointsToSubtract = data.minutes * trackedApp.costPerMinute
+    const pointsToSubtract = data.minutes * trackedApp.costPerMinute;
     if (user.points < pointsToSubtract) {
       throw new NotAcceptableException('Not enough points!');
     }
