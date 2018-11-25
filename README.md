@@ -1,3 +1,3 @@
 # FitLocker
 
-> move ur lazy ass lol
+> Simple solution to social media addiction
