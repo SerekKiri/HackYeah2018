@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+
 class LockingScreen extends StatelessWidget {
   final String packageName;
   LockingScreen({this.packageName});
@@ -16,6 +17,7 @@ class LockingScreen extends StatelessWidget {
     );
   }
 }
+
 class LockingScreenWidget extends StatelessWidget {
   final String packageName;
   LockingScreenWidget({this.packageName});
@@ -30,13 +32,15 @@ class LockingScreenWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(onPressed: () {
-              SharedPreferences.getInstance().then((sp) async {
-                await sp.setBool(packageName + '.unlocked', true);
-                SystemNavigator.pop();
-              });
-            },
-            child: Text('Unlock'),)
+            RaisedButton(
+              onPressed: () {
+                SharedPreferences.getInstance().then((sp) async {
+                  await sp.setBool(packageName + '.unlocked', true);
+                  SystemNavigator.pop();
+                });
+              },
+              child: Text('Unlock'),
+            )
           ],
         ),
       ),

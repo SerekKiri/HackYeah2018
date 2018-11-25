@@ -6,9 +6,7 @@ import 'package:fitlocker/models/app.dart';
 import 'package:fitlocker/models/activity.dart';
 
 class AppModel extends Model with AppListModel, ActivityModel, PointsModel {
-
-  AppModel() {
-  }
+  AppModel() {}
 }
 
 abstract class AppListModel extends Model {
@@ -19,14 +17,13 @@ abstract class AppListModel extends Model {
     this.remoteApps = await api.fetchApps();
     this.remoteApps.forEach((app) {
       supaPrefs.getPrefs().setBool(app.appIndentifier, true);
-
-    }
-    );
+    });
     this.localApps = await getAppList();
 
     this.isLoading = false;
     notifyListeners();
   }
+
   Future addApp(LocalApp app, int cost) async {
     await api.addApp(app.name, app.packageName, cost);
     this.remoteApps = await api.fetchApps();
@@ -36,7 +33,6 @@ abstract class AppListModel extends Model {
     notifyListeners();
   }
 }
-
 
 abstract class ActivityModel extends Model {
   List<Activity> activitites = [];
@@ -50,6 +46,10 @@ abstract class ActivityModel extends Model {
 }
 
 abstract class PointsModel extends Model {
+  int points = 0;
+  Future fetcherPointer() async {
+    this.points = await api.fetchPoints();
+  }
 }
 
 final model = new AppModel();

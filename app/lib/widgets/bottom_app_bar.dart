@@ -27,7 +27,7 @@ class _BottomNavigationDotBarState extends State<BottomNavigationDotBar> {
 
   _afterLayout(_) {
     final sizeBottomBar =
-      (_keyBottomBar.currentContext.findRenderObject() as RenderBox).size;
+        (_keyBottomBar.currentContext.findRenderObject() as RenderBox).size;
     _numPositionBase = ((sizeBottomBar.width / widget.items.length));
     _numDifferenceBase = (_numPositionBase - (_numPositionBase / 2) + 2);
     setState(() {
@@ -37,47 +37,41 @@ class _BottomNavigationDotBarState extends State<BottomNavigationDotBar> {
 
   @override
   Widget build(BuildContext context) => Container(
-    child: Material(
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: Stack(
-          key: _keyBottomBar,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(bottom: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:
-                  _createNavigationIconButtonList(widget.items.asMap())
+        child: Material(
+            child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: Stack(
+            key: _keyBottomBar,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children:
+                        _createNavigationIconButtonList(widget.items.asMap())),
               ),
-            ),
-            AnimatedPositioned(
-              child: CircleAvatar(
-                radius: 2.5,
-                backgroundColor: Theme.of(context).accentColor),
-              duration: Duration(milliseconds: 400),
-              curve: Curves.fastOutSlowIn,
-              left: _positionLeftIndicatorDot,
-              bottom: 0
-            ),
-          ],
-        ),
-      )
-    ),
-  );
+              AnimatedPositioned(
+                  child: CircleAvatar(
+                      radius: 2.5,
+                      backgroundColor: Theme.of(context).accentColor),
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.fastOutSlowIn,
+                  left: _positionLeftIndicatorDot,
+                  bottom: 0),
+            ],
+          ),
+        )),
+      );
 
   List<_NavigationIconButton> _createNavigationIconButtonList(
-    Map<int, BottomNavigationDotBarItem> mapItem
-  ) {
+      Map<int, BottomNavigationDotBarItem> mapItem) {
     List<_NavigationIconButton> children = List<_NavigationIconButton>();
     mapItem.forEach((index, item) => children.add(_NavigationIconButton(
-      item.icon,
-      (index == _indexPageSelected) ? Colors.black87 : Colors.black45,
-      item.onTap,
-      () {
-        _changeOptionBottomBar(index);
-      }
-    )));
+            item.icon,
+            (index == _indexPageSelected) ? Colors.black87 : Colors.black45,
+            item.onTap, () {
+          _changeOptionBottomBar(index);
+        })));
     return children;
   }
 
@@ -96,7 +90,7 @@ class BottomNavigationDotBarItem {
   final IconData icon;
   final NavigationIconButtonTapCallback onTap;
   const BottomNavigationDotBarItem({@required this.icon, this.onTap})
-    : assert(icon != null);
+      : assert(icon != null);
 }
 
 typedef NavigationIconButtonTapCallback = void Function();
@@ -155,12 +149,9 @@ class _NavigationIconButtonState extends State<_NavigationIconButton>
         widget._onTapExternalButton();
       },
       child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: AnimatedOpacity(
-            opacity: _opacityIcon,
-            duration: Duration(milliseconds: 200),
-            child: Icon(widget._icon, color: widget._colorIcon)
-        )
-      )
-    );
+          scale: _scaleAnimation,
+          child: AnimatedOpacity(
+              opacity: _opacityIcon,
+              duration: Duration(milliseconds: 200),
+              child: Icon(widget._icon, color: widget._colorIcon))));
 }
