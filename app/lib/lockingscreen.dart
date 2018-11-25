@@ -74,7 +74,7 @@ class LockingScreenWidget extends StatelessWidget {
                                   right: 10.0, bottom: 10.0, top: 10),
                             ),
                             Text(
-                              "Buy more time!\n",
+                              "Get more time!\n",
                               style: TextStyle(color: Colors.white),
                             )
                           ],
