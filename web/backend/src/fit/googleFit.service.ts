@@ -82,7 +82,8 @@ export class GoogleFitService {
             alreadyConverted: false,
           };
         })
-        .sort((a, b) => a.startTimeMilis - b.startTimeMilis);
+        .sort((a, b) => a.startTimeMilis - b.startTimeMilis)
+        .filter(d => d.activityCode !== 3 /* Sitting still */);
       for (let row of formattedData) {
         row.alreadyConverted = !!(await this.convertedActivityRepository.findOne(
           {

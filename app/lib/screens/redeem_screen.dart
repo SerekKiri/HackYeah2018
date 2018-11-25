@@ -61,11 +61,21 @@ class RedeemScreen extends StatelessWidget {
               title: Row(children: [
                 Expanded(
                     child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(model.remoteApps[index].friendlyName),
-                    Text(
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                      child: Text(
                         model.remoteApps[index].minutesLeft.floor().toString() +
-                            " minutes left")
+                            " minutes left",
+                        style: TextStyle(
+                            color:
+                                model.remoteApps[index].minutesLeft.floor() == 0
+                                    ? Colors.grey
+                                    : Colors.green),
+                      ),
+                    )
                   ],
                 )),
                 ButtonTheme(

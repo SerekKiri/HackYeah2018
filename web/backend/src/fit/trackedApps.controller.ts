@@ -107,8 +107,9 @@ export class TrackedAppsController {
           },
         }),
       ) as any;
-
-      delete dto.allowance.app;
+      if (dto.allowance) {
+        delete dto.allowance.app;
+      }
     }
     return dtos;
   }
