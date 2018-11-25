@@ -62,6 +62,7 @@ export default class GoogleApiController {
       // 'online' (default) or 'offline' (gets refresh_token)
       access_type: 'offline',
 
+      prompt: 'consent',
       // If you only need one scope you can pass it as a string
       scope: scopes,
     });
@@ -74,7 +75,7 @@ export default class GoogleApiController {
   async redirectFromGoogle(
     @Query('code') code: string,
     @Req() req,
-    @Query('code') state: string,
+    @Query('state') state: string,
   ) {
     const oauth2Client = this.oauthClientService.createOauthClient();
 
@@ -86,6 +87,7 @@ export default class GoogleApiController {
         auth: oauth2Client,
       }),
     );
+    console.log({ state, userId: state.split('=')[1] });
     const user: User = await this.userRepository.findOne(state.split('=')[1]);
     user.googleTokens = JSON.stringify(tokens);
     await this.userRepository.save(user);
