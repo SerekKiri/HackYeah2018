@@ -42,11 +42,19 @@ class ActivitiesScreen extends StatelessWidget {
                   return ListView.builder(
                       padding: const EdgeInsets.all(10.0),
                       itemBuilder: (context, i) {
+                        if (i == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[Text("Don't forget to sync your Google Fit data with your account!", style: TextStyle(color: Colors.grey),)]),
+                          );
+                        }
                         if (i.isOdd) return Divider();
                         final index = i ~/ 2;
-                        return ActivityListTile(index);
+                        return ActivityListTile(index-1);
                       },
-                      itemCount: model.activitites.length * 2);
+                      itemCount: model.activitites.length * 2 + 2);
                 }
               },
             )))));

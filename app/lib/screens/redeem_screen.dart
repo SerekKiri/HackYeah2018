@@ -30,9 +30,10 @@ class RedeemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Redeem points', style: TextStyle(
-            color: Colors.black
-          ),),
+          title: Text(
+            'Redeem points',
+            style: TextStyle(color: Colors.black),
+          ),
           backgroundColor: Colors.white,
           elevation: 1.5,
           titleSpacing: 0,
@@ -118,6 +119,18 @@ Future<int> showPointsChoiceDialog(context) {
         return SimpleDialog(
           title: const Text('Select the amount of minutes you want to buy'),
           children: <Widget>[
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context, 1);
+              },
+              child: const Text('1'),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context, 2);
+              },
+              child: const Text('2'),
+            ),
             SimpleDialogOption(
               onPressed: () {
                 Navigator.pop(context, 5);
