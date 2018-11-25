@@ -13,8 +13,11 @@ import android.app.NotificationChannel
 import android.content.*
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import com.example.fitlocker.LockingActivity
 import com.example.fitlocker.R
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.android.extension.responseJson
 
 class LockingService : NonStopIntentService("LockingService") {
     var threadIsTerminate = false
@@ -90,27 +93,65 @@ class LockingService : NonStopIntentService("LockingService") {
 
     private fun checkData() {
         while (threadIsTerminate) {
-            val packageName = getLauncherTopApp(this@LockingService, activityManager)
-            if (prefs.getBoolean("flutter.$packageName", false)
-                    && prefs.getString("flutter.currentlyLocking", "")
-                    != packageName) {
-                if (!prefs.getBoolean("flutter.$packageName.unlocked", false)) {
-                    startActivity(LockingActivity.createIntent(this, packageName))
-                } else {
-                    if (prefs.getString("flutter.$packageName.lastLockTimestamp", "ddd") != "ddd" ){
-                        val lastLock = prefs.getString("flutter.$packageName.lastLockTimestamp", "ddd") as String;
-                        val period = prefs.getString("flutter.$packageName.lockingPeriod", "30000") as String;
-                        val milis = System.currentTimeMillis() / 1000
-                        if (milis - lastLock.toDouble() > period.toDouble()) {
+            try {
+                Log.v("ASDDD", "CO")
+
+                var packageName = getLauncherTopApp(this@LockingService, activityManager)
+                if (packageName.isEmpty()) {
+                    packageName = prefs.getString("flutter.lastPackage", "")
+                }
+                Log.v("ASDDD", packageName)
+                Log.v("ASDDD", prefs.getString("flutter.currentlyLocking", ""))
+                Log.v("ASDDD", prefs.getString("flutter.lastPackage", ""))
+
+                if (prefs.getBoolean("flutter.$packageName", false)
+                        && prefs.getString("flutter.currentlyLocking", "")
+                        != packageName) {
+                    if (prefs.getString("flutter.lastPackage", "") != packageName) {
+                        Log.v("ASDDD", "DUPA")
+                        val res = Fuel.post("http://fitlocker.eu.ngrok.io/api/fit/allowance/start")
+                                .header("Authorization" to "Bearer " + prefs.getString("flutter.token", ""))
+                                .jsonBody("{ \"appType\" : \"androidApp\", \"appIdentifier\" : \"" + packageName + "\"  }")
+                                .responseJson()
+                        if (res.third.get().obj().getBoolean("allow")) {
+                            prefs.edit().putBoolean("flutter.$packageName.unlocked", true).commit()
+                        } else {
                             prefs.edit().putBoolean("flutter.$packageName.unlocked", false).commit()
                         }
+                    }
+
+                    if (prefs.getInt("lastPing", 0) > 30) {
+                        prefs.edit().putInt("lastPing", 0).commit();
+                        Fuel.post("http://fitlocker.eu.ngrok.io/api/fit/allowance/ping")
+
+                                .header("Authorization" to "Bearer " + prefs.getString("flutter.token", ""))
+                                .jsonBody("{ \"appType\" : \"androidApp\", \"appIdentifier\" : \"" + packageName + "\"  }")
+                                .responseJson { _, _, result ->
+                                    if (result.get().obj().getBoolean("allow")) {
+                                        prefs.edit().putBoolean("flutter.$packageName.unlocked", true).commit()
+                                    } else {
+                                        prefs.edit().putBoolean("flutter.$packageName.unlocked", false).commit()
+                                    }
+                                    /* ... */
+                                }
+                    } else {
+                        Log.v("asdasd", "tick " + prefs.getInt("lastPing", 0))
+                        prefs.edit().putInt("lastPing", prefs.getInt("lastPing", 0) + 1).commit();
 
                     }
-                }
-            }
 
+                    if (!prefs.getBoolean("flutter.$packageName.unlocked", false)) {
+                        startActivity(LockingActivity.createIntent(this, packageName))
+                    } else {
+                    }
+                }
+
+                prefs.edit().putString("flutter.lastPackage", packageName).commit()
+            } catch (e: Throwable) {
+                throw(e);
+            }
             try {
-                Thread.sleep(500)
+                Thread.sleep(1500)
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
