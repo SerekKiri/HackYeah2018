@@ -18,6 +18,8 @@ class ActivityCardWidget extends StatelessWidget {
             elevation: 2,
             child: Column(
               children: <Widget>[
+                Container(padding: EdgeInsets.all(12.0), child: Text('Activities', style: TextStyle(fontSize: 16.0))),
+                Divider(),
                 ScopedModel<ActivityModel>(
                   model: model,
                   child: ScopedModelDescendant<ActivityModel>(
@@ -43,7 +45,6 @@ class ActivityCardWidget extends StatelessWidget {
                     },
                   )
                 ),
-                Divider(),
                 FlatButton(
                   child: Text('More'),
                   onPressed: () {

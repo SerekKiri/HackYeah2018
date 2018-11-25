@@ -19,6 +19,8 @@ class ApplicationsCard extends StatelessWidget {
             elevation: 2,
             child: Column(
               children: <Widget>[
+                Container(padding: EdgeInsets.all(12.0), child: Text('Applications', style: TextStyle(fontSize: 16.0))),
+                Divider(),
                 ScopedModel<AppListModel>(
                     model: model,
                     child: ScopedModelDescendant<AppListModel>(
