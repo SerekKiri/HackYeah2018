@@ -89,7 +89,7 @@ export default class GoogleApiController {
     const user: User = await this.userRepository.findOne(state.split('=')[1]);
     user.googleTokens = JSON.stringify(tokens);
     await this.userRepository.save(user);
-    return '<h1>Everything is okay!</h1>';
+    return '<h1>Everything is okay! You can now proceed to the app.</h1>';
   }
 
   @ApiBearerAuth()

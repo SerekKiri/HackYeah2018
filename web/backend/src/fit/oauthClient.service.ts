@@ -14,7 +14,7 @@ export class OauthClientService {
     const oauth2Client = new google.auth.OAuth2(
       cfg.CLIENT_ID,
       cfg.CLIENT_SECRET,
-      customUrl || 'http://localhost/api/fit/google/redirect-from-google',
+      customUrl || 'https://fitlocker.eu.ngrok.io/api/fit/google/redirect-from-google',
     );
     return oauth2Client;
   }
