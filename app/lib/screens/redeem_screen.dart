@@ -77,10 +77,10 @@ class RedeemScreen extends StatelessWidget {
                         model.remoteApps[index].minutesLeft.floor().toString() +
                             " minutes left",
                         style: TextStyle(
-                            color:
-                                model.remoteApps[index].minutesLeft.floor() == 0
-                                    ? Colors.grey
-                                    : Colors.green),
+                          color:
+                             model.remoteApps[index].minutesLeft.floor() == 0
+                                ? Colors.grey
+                                : Colors.green),
                       ),
                     )
                   ],
@@ -100,8 +100,12 @@ class RedeemScreen extends StatelessWidget {
                           } else {
                             await this.model.loadApps();
                           }
-                        })),
-              ])),
+                    }
+                  )
+                ),
+              ] 
+            )
+          ),
         ],
       ),
     );
