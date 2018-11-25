@@ -4,6 +4,7 @@ import 'package:fitlocker/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fitlocker/models/app.dart';
 import 'package:fitlocker/models/activity.dart';
+import 'package:fitlocker/model.dart';
 
 class Api {
   String token;
@@ -35,6 +36,9 @@ class Api {
           await http.get('$host/fit/google/connect', headers: getHeaders);
       await _launchUrl(json.decode(redirectUrl.body)["redirectUrl"]);
     }
+    await model.fetcherPointer();
+    await model.loadApps();
+    await model.loadActivities();
     return true;
   }
 
@@ -69,7 +73,6 @@ class Api {
     if (response.statusCode != 200) {
       return json.decode(response.body)["message"];
     }
-    print(response.body);
   }
 
   _launchUrl(String url) async {

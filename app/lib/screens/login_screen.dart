@@ -76,7 +76,7 @@ class LoginForm extends StatelessWidget {
                     "email": userToLogIn.email,
                     "password": userToLogIn.password
                   });
-                  print(data);
+                  (data);
                   if (!(await api.loginUser(data))) {
                     showDialog(
                       context: context,

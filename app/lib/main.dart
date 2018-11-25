@@ -14,8 +14,11 @@ void main() => supaPrefs.init().then((d) async {
         loggedIn = false;
       }
       if (!loggedIn) {}
-
-      runApp(FitLocker(loggedIn));
+      if (window.defaultRouteName == '/') {
+        runApp(FitLocker(loggedIn));
+      } else {
+        runApp(LockingScreen(packageName: window.defaultRouteName));
+      }
     });
 void lockingscreen() => supaPrefs.init().then((d) {
       runApp(LockingScreen(packageName: window.defaultRouteName));

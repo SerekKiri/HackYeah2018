@@ -87,7 +87,7 @@ object Flutter {
             fun onCreate() {
                 val arguments = FlutterRunArguments()
                 arguments.bundlePath = FlutterMain.findAppBundlePath(activity.applicationContext)
-                arguments.entrypoint = "lockingscreen"
+                arguments.entrypoint = "main"
                 flutterView.runFromBundle(arguments)
                 GeneratedPluginRegistrant.registerWith(flutterView.pluginRegistry)
             }

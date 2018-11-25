@@ -7,23 +7,13 @@ import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/models/app.dart';
 
 import 'package:scoped_model/scoped_model.dart';
+import 'package:fitlocker/model.dart';
 
-class AppCardsModel extends Model {
-  List<App> remoteApps = [];
-  bool _isLoading = true;
-  Future loadApps() async {
-    this.remoteApps = await api.fetchApps();
-    this._isLoading = false;
-    notifyListeners();
-  }
-}
+
 
 class RedeemScreen extends StatelessWidget {
-  AppCardsModel model;
-
   RedeemScreen() {
-    this.model = AppCardsModel();
-    this.model.loadApps();
+    model.fetchJustRemoteApps();
   }
 
   @override
@@ -42,11 +32,11 @@ class RedeemScreen extends StatelessWidget {
           color: Colors.black
         ),
         ),
-        body: ScopedModel<AppCardsModel>(
-            model: this.model,
-            child: Center(child: ScopedModelDescendant<AppCardsModel>(
+        body: ScopedModel<AppListModel>(
+            model: model,
+            child: Center(child: ScopedModelDescendant<AppListModel>(
               builder: (context, child, model) {
-                if (model._isLoading) {
+                if (model.isLoading) {
                   return Center(child: CircularProgressIndicator());
                 } else {
                   return ListView.builder(
@@ -61,7 +51,7 @@ class RedeemScreen extends StatelessWidget {
             ))));
   }
 
-  Widget _buildApp(BuildContext context, int index, AppCardsModel model) {
+  Widget _buildApp(BuildContext context, int index, AppListModel model) {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -101,7 +91,7 @@ class RedeemScreen extends StatelessWidget {
                           if (result != null) {
                             showSimpleAlert(context, "Error", result);
                           } else {
-                            await this.model.loadApps();
+                            await model.loadApps();
                           }
                     }
                   )

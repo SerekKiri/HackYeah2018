@@ -94,15 +94,11 @@ class LockingService : NonStopIntentService("LockingService") {
     private fun checkData() {
         while (threadIsTerminate) {
             try {
-                Log.v("ASDDD", "CO")
 
                 var packageName = getLauncherTopApp(this@LockingService, activityManager)
                 if (packageName.isEmpty()) {
                     packageName = prefs.getString("flutter.lastPackage", "")
                 }
-                Log.v("ASDDD", packageName)
-                Log.v("ASDDD", prefs.getString("flutter.currentlyLocking", ""))
-                Log.v("ASDDD", prefs.getString("flutter.lastPackage", ""))
 
                 if (prefs.getBoolean("flutter.$packageName", false)
                         && prefs.getString("flutter.currentlyLocking", "")
@@ -148,7 +144,6 @@ class LockingService : NonStopIntentService("LockingService") {
 
                 prefs.edit().putString("flutter.lastPackage", packageName).commit()
             } catch (e: Throwable) {
-                throw(e);
             }
             try {
                 Thread.sleep(1500)

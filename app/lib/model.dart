@@ -23,7 +23,16 @@ abstract class AppListModel extends Model {
     this.isLoading = false;
     notifyListeners();
   }
+  Future fetchJustRemoteApps() async {
+    this.remoteApps = await api.fetchApps();
+    this.remoteApps.forEach((app) {
+      supaPrefs.getPrefs().setBool(app.appIndentifier, true);
+    });
+    // this.localApps = await getAppList();
 
+    this.isLoading = false;
+    notifyListeners();
+  }
   Future addApp(LocalApp app, int cost) async {
     await api.addApp(app.name, app.packageName, cost);
     this.remoteApps = await api.fetchApps();
