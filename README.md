@@ -41,4 +41,4 @@
 ```
 
 # :clap: Contributing
-If you want to help with the project, you can have a look at [some issues](https://github.com/SerekKiri/genevi/issues). All help is much appreciated :blush:
+If you want to help with the project, you can have a look at [some issues](https://github.com/SerekKiri/HackYeah2018/issues). All help is much appreciated :blush:
