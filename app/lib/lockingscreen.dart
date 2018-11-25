@@ -28,7 +28,16 @@ class LockingScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(packageName),
+        titleSpacing: 0,
+        elevation: 1.5,
+        centerTitle: true,
+        title: Text("FitLocker", style: TextStyle(
+          color: Colors.black
+        ),),
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black
+        ),
       ),
       body: Container(
         child: Center(

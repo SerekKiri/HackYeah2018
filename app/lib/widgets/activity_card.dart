@@ -23,6 +23,9 @@ class ActivityCardWidget extends StatelessWidget {
                   child: ScopedModelDescendant<ActivityModel>(
                     builder: (context, child, model5) {
                       var items = 3;
+                      if (model.activitiesLoading == true) {
+                        return CircularProgressIndicator();
+                      }
                       if (model5.activitites.length < items) {
                         items = model5.activitites.length;
                       }

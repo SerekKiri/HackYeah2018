@@ -38,6 +38,9 @@ class RedeemScreen extends StatelessWidget {
           elevation: 1.5,
           titleSpacing: 0,
           centerTitle: true,
+           iconTheme: IconThemeData(
+          color: Colors.black
+        ),
         ),
         body: ScopedModel<AppCardsModel>(
             model: this.model,

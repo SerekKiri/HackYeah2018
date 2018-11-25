@@ -33,7 +33,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("FitLocker"),
+        title: Text("FitLocker", style: TextStyle(
+          color: Colors.black
+        ),),
+        backgroundColor: Colors.blue,
+         iconTheme: IconThemeData(
+          color: Colors.black
+        ),
       ),
         body: Container(
       child: Center(

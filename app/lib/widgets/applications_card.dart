@@ -24,6 +24,9 @@ class ApplicationsCard extends StatelessWidget {
                     child: ScopedModelDescendant<AppListModel>(
                       builder: (context, child, model121) {
                         var items = 3;
+                        if (model.isLoading) {
+                          return CircularProgressIndicator();
+                        }
                         if (model121.remoteApps.length < items) {
                           items = model121.remoteApps.length;
                         }

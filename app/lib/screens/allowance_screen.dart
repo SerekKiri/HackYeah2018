@@ -42,6 +42,9 @@ class AllowanceScreen extends StatelessWidget {
             color: Colors.black
           ),),
           backgroundColor: Colors.white,
+           iconTheme: IconThemeData(
+          color: Colors.black
+        ),
         ),
         body: ScopedModel<AppListModel>(
             model: model,
