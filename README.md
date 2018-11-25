@@ -1,3 +1,3 @@
 # FitLocker
 
-> Simple solution to social media addiction
+> Lessen social media addiction or fix obesity? Why not both?
