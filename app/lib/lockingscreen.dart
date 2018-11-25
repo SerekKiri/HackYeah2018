@@ -28,19 +28,42 @@ class LockingScreenWidget extends StatelessWidget {
       appBar: AppBar(
         title: Text(packageName),
       ),
-      body: Center(
+      body: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-              onPressed: () {
-                SharedPreferences.getInstance().then((sp) async {
-                  await sp.setBool(packageName + '.unlocked', true);
-                  SystemNavigator.pop();
-                });
-              },
-              child: Text('Unlock'),
-            )
+            Image.asset("assets/logo.png", width: 200, height: 200,),
+            Text("Time is out!", style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold
+            ),),
+            Container(
+              child: Column(
+                children: <Widget>[
+                  RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          child: Icon(Icons.shop, color: Colors.white,),
+                          padding: EdgeInsets.only(right: 10.0, bottom: 10.0),
+                        ),
+                        Text("Buy more time!")
+                      ],
+                    ),
+                  ),
+                  RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Convert your points")
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )            
           ],
         ),
       ),

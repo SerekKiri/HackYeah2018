@@ -32,6 +32,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("FitLocker"),
+      ),
         body: Container(
       child: Center(
         child: Column(
