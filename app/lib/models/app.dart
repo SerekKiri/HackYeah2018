@@ -9,5 +9,5 @@ class App {
     : id = json['id'],
       costPerMinute = json['costPerMinute'],
       friendlyName = json['friendlyName'],
-      appIndentifier = json['appIndentifier'];
+      appIndentifier = json['appIdentifier'];
 }

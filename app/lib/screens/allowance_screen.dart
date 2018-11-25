@@ -7,51 +7,13 @@ import 'package:fitlocker/utils/utils.dart';
 import 'package:fitlocker/models/app.dart';
 import 'package:fitlocker/widgets/widgets.dart';
 import 'package:fitlocker/models/local_app.dart';
+import 'package:fitlocker/model.dart';
 
 import 'package:scoped_model/scoped_model.dart';
 
-class AppListModel extends Model {
-  List<App> remoteApps = [];
-  List<LocalApp> localApps = [];
-  bool _isLoading = true;
-  Future loadApps() async {
-    this.remoteApps = await api.fetchApps();
-    this.localApps = await getAppList();
-
-    this._isLoading = false;
-    notifyListeners();
-  }
-  Future addApp(LocalApp app, int cost) async {
-    await 
-    await api.addApp(app.name, app.packageName, cost);
-    this.remoteApps = await api.fetchApps();
-    this.localApps = await getAppList();
-
-    this._isLoading = false;
-    notifyListeners();
-  }
-  Future load() async {
-    //await api.fetchApps();
-    //this.storagedApps = await getAppList();
-    //this._isLoading = false;
-    //notifyListeners();
-  }
-  void toggleApp(int index) async {
-    // App app = storagedApps[index];
-    // await supaPrefs.getPrefs().setBool(app.packageName, !app.isBlocked);
-    // app.isBlocked = !app.isBlocked;
-    // notifyListeners();
-  }
-}
-
 class AllowanceScreen extends StatelessWidget {
-  AppListModel model;
 
-  AllowanceScreen() {
-    this.model = AppListModel();
-    this.model.loadApps();
-  }
-  void _showDialog(AppListModel model, BuildContext context) {
+  void _showDialog(BuildContext context) {
     // flutter defined function
     showDialog(
       context: context,
@@ -60,9 +22,9 @@ class AllowanceScreen extends StatelessWidget {
         return AlertDialog(
           title: new Text('Add new app to track'),
           content: new AddAppDialog(callback: (app, cost) {
-            this.model.addApp(app, cost);
+            model.addApp(app, cost);
             Navigator.of(context).pop();
-          }, apps: this.model.localApps),
+          }, apps: model.localApps),
         );
       },
     );
@@ -75,17 +37,17 @@ class AllowanceScreen extends StatelessWidget {
           title: Text('FitLocker'),
         ),
         body: ScopedModel<AppListModel>(
-            model: this.model,
+            model: model,
             child: Scaffold(
                 floatingActionButton: FloatingActionButton(
                   child: Icon(Icons.add),
                   onPressed: () {
-                    _showDialog(model, context);
+                    _showDialog(context);
                   },
                 ),
                 body: Center(child: ScopedModelDescendant<AppListModel>(
                   builder: (context, child, model) {
-                    if (model._isLoading) {
+                    if (model.isLoading) {
                       return Center(child: CircularProgressIndicator());
                     } else {
                       return ListView.builder(
