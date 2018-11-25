@@ -48,18 +48,18 @@ services:
     labels:
       traefik.frontend.rule: PathPrefixStrip:/pma/
       traefik.frontend.headers.customRequestHeaders: Host:pma.virtualhost
-  frontend:
-    tty: true
-    image: node:alpine
-    ports:
-      - 8080
-    volumes: 
-      - ./frontend:/usr/frontend
-    command: npm run serve
-    working_dir: /usr/frontend
-    labels:
-      traefik.frontend.rule: PathPrefixStrip:/
-      traefik.frontend.headers.customRequestHeaders: Host:localhost
+  # frontend:
+  #   tty: true
+  #   image: node:alpine
+  #   ports:
+  #     - 8080
+  #   volumes: 
+  #     - ./frontend:/usr/frontend
+  #   command: npm run serve
+  #   working_dir: /usr/frontend
+  #   labels:
+  #     traefik.frontend.rule: PathPrefixStrip:/
+  #     traefik.frontend.headers.customRequestHeaders: Host:localhost
   reverse-proxy:
     image: traefik # The official Traefik docker image
     command: --configFile=/etc/traefik/traefik.toml
