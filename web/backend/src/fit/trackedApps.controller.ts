@@ -105,10 +105,11 @@ export class TrackedAppsController {
   ) {
     const trackedApp = await this.trackedAppRepository.findOneOrFail(id);
     const user: User = (req as any).user.user;
-    user.points -= data.minutes * trackedApp.costPerMinute;
-    if (user.points < 0) {
-      throw new NotAcceptableException('Too little points!');
+    const pointsToSubtract = data.minutes * trackedApp.costPerMinute
+    if (user.points < pointsToSubtract) {
+      throw new NotAcceptableException('Not enough points!');
     }
+    user.points -= pointsToSubtract;
     let allowance = await this.allowanceRepository.findOne({
       where: {
         app: {
@@ -123,7 +124,7 @@ export class TrackedAppsController {
       allowance.minutesLeft = 0;
     }
     allowance.lastSubtracted = new Date();
-    allowance.minutesLeft += data.minutes * trackedApp.costPerMinute;
+    allowance.minutesLeft += data.minutes;
 
     await this.allowanceRepository.save(allowance);
     await this.userRepository.save(user);
