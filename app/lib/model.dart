@@ -30,27 +30,8 @@ abstract class AppListModel extends Model {
 
 
 abstract class ActivityModel extends Model {
-  List<App> remoteApps = [];
-  List<LocalApp> localApps = [];
-  bool _isLoading = true;
-  Future loadActivities() async {
-    this.remoteApps = await api.fetchApps();
-    this.localApps = await getAppList();
 
-    this._isLoading = false;
-    notifyListeners();
-  }
 }
 
 abstract class PointsModel extends Model {
-  List<App> remoteApps = [];
-  List<LocalApp> localApps = [];
-  bool _isLoading = true;
-  Future loadActivities() async {
-    this.remoteApps = await api.fetchApps();
-    this.localApps = await getAppList();
-
-    this._isLoading = false;
-    notifyListeners();
-  }
 }

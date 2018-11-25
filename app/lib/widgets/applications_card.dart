@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fitlocker/screens/screens.dart';
 
 class ApplicationsCard extends StatelessWidget {
   const ApplicationsCard({
@@ -33,7 +34,14 @@ class ApplicationsCard extends StatelessWidget {
                 Icon(Icons.message, size: 40.0,),
                 Text('Facebook')
               ],
-            )
+            ),
+            FlatButton(child: Text('More'), onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AllowanceScreen()
+                )
+              );
+            },)
             
           ],
         ),
