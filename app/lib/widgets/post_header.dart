@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fitlocker/model.dart';
+import 'package:fitlocker/screens/redeem_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PostHeaderWidget extends StatelessWidget {
@@ -9,7 +10,8 @@ class PostHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return GestureDetector(
+      child: Padding(
         padding: EdgeInsets.only(top: 15.0),
         child: ScopedModel<PointsModel>(
           model: model,
@@ -19,9 +21,12 @@ class PostHeaderWidget extends StatelessWidget {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border:
-                        Border.all(width: 8.0, color: Colors.greenAccent[400])),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    width: 8.0,
+                    color: Colors.greenAccent[400]
+                  )
+                ),
                 child: Container(
                   width: 120,
                   height: 120,
@@ -29,16 +34,27 @@ class PostHeaderWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: ScopedModelDescendant<PointsModel>(
-                      builder: (context, child, model2222) => Center(
-                            child: Text(model2222.points.toString(), style: TextStyle(
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold
-                            ),),
-                          )),
+                    builder: (context, child, model2222) => Center(
+                      child: Text(
+                        model2222.points.toString(),
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold
+                        )
+                      )
+                    )
+                  ),
                 ),
               ),
             ],
           ),
-        ));
+        )
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => RedeemScreen())
+        );
+      }
+    );
   }
 }

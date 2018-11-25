@@ -28,47 +28,62 @@ class ActivitiesScreen extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 } else {
                   return ListView.builder(
-                      padding: const EdgeInsets.all(10.0),
-                      itemBuilder: (context, i) {
-                        if (i.isOdd) return Divider();
-                        final index = i ~/ 2;
-                        return _buildActivity(index);
-                      },
-                      itemCount: model.activitites.length * 2);
+                    padding: const EdgeInsets.all(10.0),
+                    itemBuilder: (context, i) {
+                      if (i.isOdd) return Divider();
+                      final index = i ~/ 2;
+                      return ActivityListTile(index);
+                    },
+                    itemCount: model.activitites.length * 2
+                  );
                 }
               },
-            )))));
+            )
+          )
+        )
+      )
+    );
   }
+}
 
-  Widget _buildActivity(int index) {
+class ActivityListTile extends StatelessWidget {
+  final int index;
+
+  ActivityListTile(this.index);
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
-        title: Padding(
-            padding: EdgeInsets.fromLTRB(0.2, 0.8, 0.2, 0.8),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(model.activitites[index].name,
-                        style: TextStyle(fontSize: 16.0)),
-                    Text(" ", style: TextStyle(fontSize: 4),), // lololo spacing
-                    Row(
-                      children: <Widget>[
-                        Text(model.activitites[index].niceDuration() + " ",
-                            style:
-                                TextStyle(fontSize: 12.0, color: Colors.grey)),
-                        Text(
-                            model.activitites[index].calories.toString() +
-                                " kcal",
-                            style: TextStyle(fontSize: 12.0))
-                      ],
-                    )
-                  ],
-                )),
-                GetPointsButton(index)
-              ],
-            )));
+      title: Padding(
+        padding: EdgeInsets.fromLTRB(0.2, 0.8, 0.2, 0.8),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(model.activitites[index].name, style: TextStyle(fontSize: 16.0)),
+                  Text(" ", style: TextStyle(fontSize: 4),), // lololo spacing
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        model.activitites[index].niceDuration() + " ",
+                        style: TextStyle(fontSize: 12.0, color: Colors.grey)
+                      ),
+                      Text(
+                        model.activitites[index].calories.toString() + " kcal",
+                        style: TextStyle(fontSize: 12.0)
+                      )
+                    ],
+                  )
+                ],
+              )
+            ),
+            GetPointsButton(index)
+          ],
+        )
+      )
+    );
   }
 }
 

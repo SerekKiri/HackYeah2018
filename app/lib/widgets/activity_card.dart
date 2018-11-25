@@ -16,17 +16,11 @@ class ActivityCardWidget extends StatelessWidget {
             elevation: 0,
             child: Column(
               children: <Widget>[
-                ActivityWidget(
-                  index: 1,
-                ),
+                ActivityListTile(0),
                 Divider(),
-                ActivityWidget(
-                  index: 2,
-                ),
+                ActivityListTile(1),
                 Divider(),
-                ActivityWidget(
-                  index: 3,
-                ),
+                ActivityListTile(2),
                 Divider(),
                 FlatButton(
                   child: Text('More'),
