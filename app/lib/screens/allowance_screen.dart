@@ -16,18 +16,13 @@ class AllowanceScreen extends StatelessWidget {
     // flutter defined function
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text('Add new app to track'),
-          content: new AddAppDialog(
-              callback: (app, cost) {
-                model.addApp(app, cost);
-                Navigator.of(context).pop();
-              },
-              apps: model.localApps),
-        );
-      },
+      builder: (BuildContext context) => AddAppDialog(
+        callback: (app, cost) {
+          model.addApp(app, cost);
+          Navigator.of(context).pop();
+        },
+        apps: model.localApps
+      )
     );
   }
 
