@@ -30,25 +30,13 @@ class NewHomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  _createPointsHeader(context),
-                  _createActivityCard(context),
-                  _createReedemCard(context),
+                  PostHeaderWidget(),
+                  ActivityCardWidget(),
+                  ApplicationsCard(),
                 ],
               ),
             ),
           ))
     ]));
-  }
-
-  Widget _createPointsHeader(BuildContext context) {
-    return new PostHeaderWidget();
-  }
-
-  Widget _createActivityCard(BuildContext context) {
-    return new ActivityCardWidget();
-  }
-
-  Widget _createReedemCard(BuildContext context) {
-    return new ApplicationsCard();
   }
 }
