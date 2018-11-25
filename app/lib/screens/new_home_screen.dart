@@ -10,7 +10,6 @@ import 'package:fitlocker/widgets/widgets.dart';
 import 'package:fitlocker/model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final model = new AppModel();
 
 class NewHomeScreen extends StatelessWidget {
   @override
