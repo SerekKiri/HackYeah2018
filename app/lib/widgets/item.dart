@@ -10,7 +10,7 @@ class ItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         title: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(6.0),
             child: Row(
               children: <Widget>[
                  this.iconForId(model.remoteApps[index].appIndentifier),
@@ -18,8 +18,17 @@ class ItemWidget extends StatelessWidget {
                 Expanded(
                     child: Text(model.remoteApps[index].friendlyName,
                         style: TextStyle(fontSize: 16.0))),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
                 Text(model.remoteApps[index].costPerMinute.toString(),
                     style: TextStyle(fontSize: 16.0)),
+                                  Text('cost per minute',
+                    style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+                          ],
+                        )
+
                 
               ],
       )));

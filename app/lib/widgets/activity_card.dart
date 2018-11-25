@@ -15,7 +15,7 @@ class ActivityCardWidget extends StatelessWidget {
         padding: EdgeInsets.all(8.0),
         child: Container(
           child: Card(
-            elevation: 0,
+            elevation: 2,
             child: Column(
               children: <Widget>[
                 ScopedModel<ActivityModel>(

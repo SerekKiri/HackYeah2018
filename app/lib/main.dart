@@ -47,7 +47,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   bool reallyloggedin = false;
   final List<Widget> _children = [
     AllowanceScreen(),

@@ -35,13 +35,23 @@ class PostHeaderWidget extends StatelessWidget {
                   ),
                   child: ScopedModelDescendant<PointsModel>(
                     builder: (context, child, model2222) => Center(
-                      child: Text(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Text(
                         model2222.points.toString(),
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold
                         )
-                      )
+                      ),
+                      Text(
+                        'points',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold
+                        )
+                      ),
+                      ])
                     )
                   ),
                 ),
