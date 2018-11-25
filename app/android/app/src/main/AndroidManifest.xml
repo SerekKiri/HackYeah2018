@@ -26,7 +26,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="FitLocker"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name="com.example.fitlocker.MainActivity"
             android:theme="@style/LaunchTheme"
