@@ -1,16 +1,16 @@
 class Activity {
   final int code;
   final String name;
-  final double calories;
+  final int calories;
   final int points;
   final bool alreadyConverted;
 
 
   Activity.fromJson(Map<String, dynamic> json)
-    : code = json['activityCode'],
+    : code = json['activityCode'].toInt(),
       name = json['activityName'],
-      calories = json['calories'],
-      points = json['points'],
+      calories = json['calories'].toInt(),
+      points = json['points'].toInt(),
       alreadyConverted = json['alreadyConverted'];
   
   Map<String, dynamic> toJson() {

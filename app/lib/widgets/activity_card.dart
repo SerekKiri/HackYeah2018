@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fitlocker/screens/screens.dart';
 
 class ActivityCardWidget extends StatelessWidget {
   const ActivityCardWidget({
@@ -33,8 +34,14 @@ class ActivityCardWidget extends StatelessWidget {
                 Icon(Icons.directions_run, size: 40.0,),
                 Text('BIEGANKO 5 MIN')
               ],
-            )
-            
+            ),
+                        FlatButton(child: Text('More'), onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ActivitiesScreen()
+                )
+              );
+            },)
           ],
         ),
       ),

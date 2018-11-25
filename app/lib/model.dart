@@ -3,6 +3,7 @@ import 'package:fitlocker/models/local_app.dart';
 import 'package:fitlocker/api/api.dart';
 import 'package:fitlocker/utils/utils.dart';
 import 'package:fitlocker/models/app.dart';
+import 'package:fitlocker/models/activity.dart';
 
 class AppModel extends Model with AppListModel, ActivityModel, PointsModel {
 
@@ -39,7 +40,14 @@ abstract class AppListModel extends Model {
 
 
 abstract class ActivityModel extends Model {
+  List<Activity> activitites = [];
+  bool activitiesLoading = true;
+  Future loadApps() async {
+    this.activitites = await api.getConvertableActivities();
 
+    this.activitiesLoading = false;
+    notifyListeners();
+  }
 }
 
 abstract class PointsModel extends Model {
