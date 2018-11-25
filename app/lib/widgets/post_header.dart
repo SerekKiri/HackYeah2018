@@ -21,7 +21,7 @@ class PostHeaderWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border:
-                        Border.all(width: 10, color: Colors.greenAccent[400])),
+                        Border.all(width: 8.0, color: Colors.greenAccent[400])),
                 child: Container(
                   width: 120,
                   height: 120,
@@ -30,7 +30,10 @@ class PostHeaderWidget extends StatelessWidget {
                   ),
                   child: ScopedModelDescendant<PointsModel>(
                       builder: (context, child, model2222) => Center(
-                            child: Text(model2222.points.toString()),
+                            child: Text(model2222.points.toString(), style: TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold
+                            ),),
                           )),
                 ),
               ),

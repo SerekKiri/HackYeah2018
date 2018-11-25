@@ -19,12 +19,15 @@ class ActivityCardWidget extends StatelessWidget {
                 ActivityWidget(
                   index: 1,
                 ),
+                Divider(),
                 ActivityWidget(
                   index: 2,
                 ),
+                Divider(),
                 ActivityWidget(
                   index: 3,
                 ),
+                Divider(),
                 FlatButton(
                   child: Text('More'),
                   onPressed: () {
