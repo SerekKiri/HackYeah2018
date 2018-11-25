@@ -52,7 +52,7 @@ class ActivitiesScreen extends StatelessWidget {
                         }
                         if (i.isOdd) return Divider();
                         final index = i ~/ 2;
-                        return ActivityListTile(index+2);
+                        return ActivityListTile(index-1);
                       },
                       itemCount: model.activitites.length * 2 + 2);
                 }
