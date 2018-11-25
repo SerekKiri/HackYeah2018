@@ -27,7 +27,6 @@ class Api {
     var isConnected = await http.get('$host/fit/google/connected-to-google',
         headers: getHeaders);
 
-    print(isConnected.body);
     if (json.decode(isConnected.body)["connected"] == false) {
       var redirectUrl =
           await http.get('$host/fit/google/connect', headers: getHeaders);
@@ -56,7 +55,6 @@ class Api {
           "friendlyName": friendlyName
         })),
         headers: postHeaders);
-    print(response.body);
   }
 
   redeemPoints(int appId, int minutes) async {
@@ -64,7 +62,6 @@ class Api {
     var response = await http.post('$host/fit/tracked-apps/$appId/redeem',
         body: json.encode(Map.from({"minutes": minutes})),
         headers: postHeaders);
-    print(response.body);
   }
 
   _launchUrl(String url) async {

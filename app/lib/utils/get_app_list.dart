@@ -7,7 +7,6 @@ import 'package:fitlocker/models/local_app.dart';
 Future<List<LocalApp>> getAppList() async {
   await supaPrefs.init();
   var apps = List<String>.from(await platform.invokeMethod('queryPackages'));
-  print(apps);
   List<LocalApp> unsortedApps = List<LocalApp>.from(apps.map((String app) {
     var name = app.split(';')[0];
     var packageName = app.split(';')[1];

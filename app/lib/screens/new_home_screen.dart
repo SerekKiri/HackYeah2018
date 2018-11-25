@@ -12,10 +12,15 @@ import 'package:scoped_model/scoped_model.dart';
 
 
 class NewHomeScreen extends StatelessWidget {
+  NewHomeScreen() {
+    model.loadApps();
+    model.loadActivities();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ScopedModel<AppModel>(
+        body: ListView(
+          children: [ScopedModel<AppModel>(
             model: model,
             child: Container(
               child: Center(
@@ -28,7 +33,7 @@ class NewHomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            )));
+            ))]));
   }
 
   Widget _createPointsHeader(BuildContext context) {

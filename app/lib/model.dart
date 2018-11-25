@@ -8,7 +8,6 @@ import 'package:fitlocker/models/activity.dart';
 class AppModel extends Model with AppListModel, ActivityModel, PointsModel {
 
   AppModel() {
-    this.loadApps();
   }
 }
 
@@ -17,7 +16,6 @@ abstract class AppListModel extends Model {
   List<LocalApp> localApps = [];
   bool isLoading = true;
   Future loadApps() async {
-    if (this.remoteApps.isNotEmpty) return;
     this.remoteApps = await api.fetchApps();
     this.remoteApps.forEach((app) {
       supaPrefs.getPrefs().setBool(app.appIndentifier, true);
@@ -43,7 +41,7 @@ abstract class AppListModel extends Model {
 abstract class ActivityModel extends Model {
   List<Activity> activitites = [];
   bool activitiesLoading = true;
-  Future loadApps() async {
+  Future loadActivities() async {
     this.activitites = await api.getConvertableActivities();
 
     this.activitiesLoading = false;
